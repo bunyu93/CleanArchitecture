@@ -1,0 +1,13 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "Bunyamin Sakar",
+  "classifications": ["Cloud", "ASP.NET"],
+  "identity": "Bunyamin.Sakar.CleanArchitecture",
+  "name": "Clean Architecture",
+  "shortName": "CleanArchitecture",
+  "sourceName": "CleanArchitectureTemplate",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  }
+}

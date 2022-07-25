@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <PackageType>Template</PackageType>
+        <PackageVersion>0.0.1</PackageVersion>
+        <PackageId>Bunyamin.Sakar.CleanArchitecture</PackageId>
+        <Title>Clean Architecture</Title>
+        <Authors>Bunyamin Sakar</Authors>
+        <Description>Templates to use when creating an Cloud application</Description>
+        <PackageTags>dotnet-new;templates;</PackageTags>
+
+
+        <Copyright>Bunyamin Sakar</Copyright>
+        <PackageCopyright>Copyright © Bunyamin Sakar. All rights Reserved</PackageCopyright>
+        <PackageProjectUrl>https://github.com/bunyu93/CleanArchitecture</PackageProjectUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/bunyu93/CleanArchitecture</RepositoryUrl>
+
+        <TargetFramework>net6.0</TargetFramework>
+
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <ContentTargetFolders>content</ContentTargetFolders>
+        <NoWarn>$(NoWarn);NU5128</NoWarn>
+        <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+        <NoDefaultExcludes>True</NoDefaultExcludes>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Content Include="src\**\*" Exclude="src\**\bin\**;src\**\obj\**;src\.vs" />
+        <Compile Remove="**\*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- <Content Include="src/.template.config\icon.png" /> -->
+        <Content Include="src/.template.config\ide.host.json" />
+        <Content Include="src/.template.config\template.json" />
+    </ItemGroup>
+</Project>

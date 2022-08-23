@@ -1,5 +1,5 @@
 ﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
-using CleanArchitectureTemplate.Domain.Common;
+using CleanArchitectureTemplate.Domain.Common.Database;
 using Dapper;
 using MediatR;
 using System.Collections.Generic;
@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Queries
 {
-    public record GetWeatherForecastsQuery : IRequest<IEnumerable<QueryModelWeatherForecast>>;
+    public record GetWeatherForecastQuery : IRequest<IEnumerable<QueryModelWeatherForecast>>;
 
-    public class GetWeatherForecastsQueryHandler : IRequestHandler<GetWeatherForecastsQuery, IEnumerable<QueryModelWeatherForecast>>
+    public class GetWeatherForecastQueryHandler : IRequestHandler<GetWeatherForecastQuery, IEnumerable<QueryModelWeatherForecast>>
     {
         private readonly IDapperContext _context;
 
-        public GetWeatherForecastsQueryHandler(IDapperContext context)
+        public GetWeatherForecastQueryHandler(IDapperContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<QueryModelWeatherForecast>> Handle(GetWeatherForecastsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<QueryModelWeatherForecast>> Handle(GetWeatherForecastQuery request, CancellationToken cancellationToken)
         {
             using var db = _context.CreateConnection();
             db.Open();

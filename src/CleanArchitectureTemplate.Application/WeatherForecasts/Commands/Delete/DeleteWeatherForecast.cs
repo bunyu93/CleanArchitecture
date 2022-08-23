@@ -1,24 +1,24 @@
-﻿using CleanArchitectureTemplate.Domain.Entities;
+﻿using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
+using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Exceptions;
-using CleanArchitectureTemplate.Persistence.Repo;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Delete
 {
-    public record DeleteWeatherForecasts(int Id) : IRequest;
+    public record DeleteWeatherForecast(int Id) : IRequest;
 
-    public class DeleteWeatherForecastsHandler : IRequestHandler<DeleteWeatherForecasts>
+    public class DeleteWeatherForecastHandler : IRequestHandler<DeleteWeatherForecast>
     {
-        private readonly IRepository<WeatherForecast> _context;
+        private readonly IWeatherForecastRepository _context;
 
-        public DeleteWeatherForecastsHandler(IRepository<WeatherForecast> context)
+        public DeleteWeatherForecastHandler(IWeatherForecastRepository context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(DeleteWeatherForecasts request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(DeleteWeatherForecast request, CancellationToken cancellationToken)
         {
             var entity = await _context.Get(request.Id);
 

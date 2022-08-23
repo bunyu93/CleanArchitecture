@@ -1,6 +1,6 @@
 ﻿using System.Data;
 
-namespace CleanArchitectureTemplate.Domain.Common
+namespace CleanArchitectureTemplate.Domain.Common.Database
 {
     public interface IDapperContext
     {

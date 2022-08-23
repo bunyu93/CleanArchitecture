@@ -1,25 +1,25 @@
 ﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
+using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.ValueObjects;
-using CleanArchitectureTemplate.Persistence.Repo;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Create
 {
-    public record CreateWeatherForecasts(CreateModelWeatherForecasts WeatherForecast) : IRequest;
+    public record CreateWeatherForecast(CreateModelWeatherForecast WeatherForecast) : IRequest;
 
-    public class CreateWeatherForecastsHandler : IRequestHandler<CreateWeatherForecasts>
+    public class CreateWeatherForecastHandler : IRequestHandler<CreateWeatherForecast>
     {
-        private readonly IRepository<WeatherForecast> _context;
+        private readonly IWeatherForecastRepository _context;
 
-        public CreateWeatherForecastsHandler(IRepository<WeatherForecast> context)
+        public CreateWeatherForecastHandler(IWeatherForecastRepository context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(CreateWeatherForecasts request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(CreateWeatherForecast request, CancellationToken cancellationToken)
         {
             var entity = new WeatherForecast()
             {

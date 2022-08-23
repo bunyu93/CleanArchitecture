@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureTemplate.Persistence.Repo
+namespace CleanArchitectureTemplate.Domain.Common.Database
 {
     public interface IRepository<TEntity> where TEntity : class
     {

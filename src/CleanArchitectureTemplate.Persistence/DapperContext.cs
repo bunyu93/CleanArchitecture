@@ -1,4 +1,4 @@
-﻿using CleanArchitectureTemplate.Domain.Common;
+﻿using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Persistence.Settings.Options;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;

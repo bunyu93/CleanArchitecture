@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update
 {
-    public class CreateWeatherForecastsValidator : AbstractValidator<CreateWeatherForecasts>
+    public class CreateWeatherForecastValidator : AbstractValidator<CreateWeatherForecast>
     {
-        public CreateWeatherForecastsValidator()
+        public CreateWeatherForecastValidator()
         {
             RuleFor(v => v.WeatherForecast.Date)
                .NotEmpty()

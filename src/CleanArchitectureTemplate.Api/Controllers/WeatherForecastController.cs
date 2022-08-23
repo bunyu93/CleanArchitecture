@@ -12,27 +12,27 @@ namespace CleanArchitectureTemplate.Api.Controllers
         [HttpGet]
         public async Task<IEnumerable<QueryModelWeatherForecast>> Get()
         {
-            return await Mediator.Send(new GetWeatherForecastsQuery());
+            return await Mediator.Send(new GetWeatherForecastQuery());
         }
 
         [HttpGet("{id}")]
         public async Task<QueryModelWeatherForecast> Get([FromRoute] int id)
         {
-            return await Mediator.Send(new GetByIdWeatherForecastsQuery(id));
+            return await Mediator.Send(new GetByIdWeatherForecastQuery(id));
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateModelWeatherForecasts request)
+        public async Task<ActionResult> Post([FromBody] CreateModelWeatherForecast request)
         {
-            await Mediator.Send(new CreateWeatherForecasts(request));
+            await Mediator.Send(new CreateWeatherForecast(request));
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put([FromRoute] int id, [FromBody] UpdateModelWeatherForecasts request)
+        public async Task<ActionResult> Put([FromRoute] int id, [FromBody] UpdateModelWeatherForecast request)
         {
-            await Mediator.Send(new UpdateWeatherForecasts(id, request));
+            await Mediator.Send(new UpdateWeatherForecast(id, request));
 
             return NoContent();
         }
@@ -40,7 +40,7 @@ namespace CleanArchitectureTemplate.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            await Mediator.Send(new DeleteWeatherForecasts(id));
+            await Mediator.Send(new DeleteWeatherForecast(id));
 
             return NoContent();
         }

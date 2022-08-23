@@ -1,26 +1,26 @@
 ﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
+using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Exceptions;
 using CleanArchitectureTemplate.Domain.ValueObjects;
-using CleanArchitectureTemplate.Persistence.Repo;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update
 {
-    public record UpdateWeatherForecasts(int Id, UpdateModelWeatherForecasts WeatherForecast) : IRequest;
+    public record UpdateWeatherForecast(int Id, UpdateModelWeatherForecast WeatherForecast) : IRequest;
 
-    public class UpdateWeatherForecastsHandler : IRequestHandler<UpdateWeatherForecasts>
+    public class UpdateWeatherForecastHandler : IRequestHandler<UpdateWeatherForecast>
     {
-        private readonly IRepository<WeatherForecast> _context;
+        private readonly IWeatherForecastRepository _context;
 
-        public UpdateWeatherForecastsHandler(IRepository<WeatherForecast> context)
+        public UpdateWeatherForecastHandler(IWeatherForecastRepository context)
         {
             _context = context;
         }
 
-        public async Task<Unit> Handle(UpdateWeatherForecasts request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateWeatherForecast request, CancellationToken cancellationToken)
         {
             var entityCurrent = await _context.Get(request.Id);
             var entityNew = entityCurrent;

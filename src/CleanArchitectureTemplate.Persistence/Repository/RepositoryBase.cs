@@ -1,4 +1,5 @@
-﻿using CleanArchitectureTemplate.Persistence.EntityFramework;
+﻿using CleanArchitectureTemplate.Domain.Common.Database;
+using CleanArchitectureTemplate.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,13 +7,13 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureTemplate.Persistence.Repo
+namespace CleanArchitectureTemplate.Persistence.Repository
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly ApplicationDbContext _context;
 
-        public Repository(ApplicationDbContext context)
+        public RepositoryBase(ApplicationDbContext context)
         {
             _context = context;
         }

@@ -2,9 +2,9 @@
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update
 {
-    public class UpdateWeatherForecastsValidator : AbstractValidator<UpdateWeatherForecasts>
+    public class UpdateWeatherForecastValidator : AbstractValidator<UpdateWeatherForecast>
     {
-        public UpdateWeatherForecastsValidator()
+        public UpdateWeatherForecastValidator()
         {
             RuleFor(v => v.WeatherForecast.Date)
                .NotEmpty()

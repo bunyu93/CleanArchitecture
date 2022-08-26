@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <PackageType>Template</PackageType>
-        <PackageVersion>0.0.1</PackageVersion>
+        <PackageVersion>0.0.2</PackageVersion>
         <PackageId>Bunyamin.Sakar.CleanArchitecture</PackageId>
         <Title>Clean Architecture</Title>
         <Authors>Bunyamin Sakar</Authors>
         <Description>Templates to use when creating an Cloud application</Description>
         <PackageTags>dotnet-new;templates;</PackageTags>
-
 
         <Copyright>Bunyamin Sakar</Copyright>
         <PackageCopyright>Copyright © Bunyamin Sakar. All rights Reserved</PackageCopyright>
@@ -23,8 +21,8 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <ContentTargetFolders>content</ContentTargetFolders>
         <NoWarn>$(NoWarn);NU5128</NoWarn>
-        <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-        <NoDefaultExcludes>True</NoDefaultExcludes>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <NoDefaultExcludes>true</NoDefaultExcludes>
     </PropertyGroup>
 
     <ItemGroup>
@@ -33,8 +31,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!-- <Content Include="src/.template.config\icon.png" /> -->
-        <Content Include="src/.template.config\ide.host.json" />
-        <Content Include="src/.template.config\template.json" />
+        <!-- <Content Include="src\.template.config\icon.png" /> -->
+        <Content Include="src\.template.config\ide.host.json" />
+        <Content Include="src\.template.config\template.json" />
     </ItemGroup>
 </Project>

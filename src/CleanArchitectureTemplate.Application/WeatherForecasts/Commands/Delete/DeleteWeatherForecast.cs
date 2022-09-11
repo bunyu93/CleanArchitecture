@@ -24,7 +24,7 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Delete
 
             if (entity == null)
             {
-                throw new NotFoundException(nameof(WeatherForecast), request.Id);
+                throw new NotFoundException(nameof(WeatherForecast), request.Id.ToString());
             }
 
             await _context.Remove(entity);

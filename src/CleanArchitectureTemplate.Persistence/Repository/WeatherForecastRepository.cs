@@ -6,11 +6,7 @@ namespace CleanArchitectureTemplate.Persistence.Repository
 {
     public class WeatherForecastRepository : RepositoryBase<WeatherForecast>, IWeatherForecastRepository
     {
-        protected readonly ApplicationDbContext _context;
-
         public WeatherForecastRepository(ApplicationDbContext context) : base(context)
-        {
-            _context = context;
-        }
+        { }
     }
 }

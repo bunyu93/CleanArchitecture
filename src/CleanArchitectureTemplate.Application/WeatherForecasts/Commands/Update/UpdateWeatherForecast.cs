@@ -27,7 +27,7 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update
 
             if (entityCurrent == null)
             {
-                throw new NotFoundException(nameof(WeatherForecast), request.Id);
+                throw new NotFoundException(nameof(WeatherForecast), request.Id.ToString());
             }
 
             entityNew.Id = request.Id;

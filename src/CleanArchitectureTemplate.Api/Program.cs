@@ -1,4 +1,5 @@
 using CleanArchitectureTemplate.Api;
+using CleanArchitectureTemplate.Api.Middlewares;
 using CleanArchitectureTemplate.Application;
 using CleanArchitectureTemplate.Infrastructure;
 using CleanArchitectureTemplate.Persistence;
@@ -28,6 +29,8 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHealthChecks("/health");
 app.UseHttpsRedirection();

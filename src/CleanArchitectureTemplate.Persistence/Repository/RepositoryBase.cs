@@ -1,4 +1,5 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database;
+using CleanArchitectureTemplate.Domain.Exceptions;
 using CleanArchitectureTemplate.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -20,7 +21,7 @@ namespace CleanArchitectureTemplate.Persistence.Repository
 
         public async Task<TEntity> Get(int id)
         {
-            return await _context.Set<TEntity>().FindAsync(id) ?? throw new Exception($"Entity with id {id} not found");
+            return await _context.Set<TEntity>().FindAsync(id) ?? throw new NotFoundException($"Entity with id {id} not found");
         }
 
         public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)

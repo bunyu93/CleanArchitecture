@@ -15,9 +15,11 @@ namespace CleanArchitectureTemplate.Persistence.EntityFramework
         private readonly IMediator _mediator;
         private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-        public ApplicationDbContext(DbContextOptions options,
+        public ApplicationDbContext(
+            DbContextOptions options,
             IOptions<DatabaseOptions> databaseOptions,
-            IMediator mediator) : base(options)
+            IMediator mediator
+            ) : base(options)
         {
             _mediator = mediator;
             _databaseOptions = databaseOptions;
@@ -37,7 +39,7 @@ namespace CleanArchitectureTemplate.Persistence.EntityFramework
             modelBuilder.ApplyConfiguration(new WeatherForecastConfiguration());
         }
 
-        public virtual DbSet<WeatherForecast> WeatherForecast { get; set; }
+        public virtual DbSet<WeatherForecast> WeatherForecast => Set<WeatherForecast>();
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {

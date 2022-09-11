@@ -1,5 +1,6 @@
 ﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
 using CleanArchitectureTemplate.Domain.Common.Database;
+using CleanArchitectureTemplate.Domain.Exceptions;
 using Dapper;
 using MediatR;
 using System.Threading;
@@ -24,7 +25,7 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Queries
 
             using var db = _context.CreateConnection();
             db.Open();
-            var data = await db.QueryFirstOrDefaultAsync<QueryModelWeatherForecast>("SELECT * FROM WeatherForecast WHERE id = @Id", parameters);
+            var data = await db.QueryFirstOrDefaultAsync<QueryModelWeatherForecast>("SELECT * FROM WeatherForecast WHERE id = @Id", parameters) ?? throw new NotFoundException();
             db.Close();
 
             return data;

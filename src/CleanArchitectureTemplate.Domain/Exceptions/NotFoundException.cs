@@ -8,7 +8,11 @@ namespace CleanArchitectureTemplate.Domain.Exceptions
         {
         }
 
-        public NotFoundException(string name, object key) : base($"Entity \"{name}\" ({key}) was not found.")
+        public NotFoundException(string id) : base($"Entity with id: '{id}' was not found.")
+        {
+        }
+
+        public NotFoundException(string name, string id) : base($"Entity '{name}' with id: '{id}' was not found.")
         {
         }
     }

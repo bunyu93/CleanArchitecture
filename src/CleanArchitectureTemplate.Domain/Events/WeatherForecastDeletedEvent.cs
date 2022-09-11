@@ -1,7 +1,4 @@
-﻿using CleanArchitectureTemplate.Domain.Common;
-using CleanArchitectureTemplate.Domain.Entities;
-
-namespace CleanArchitectureTemplate.Domain.Events
+﻿namespace CleanArchitectureTemplate.Domain.Events
 {
     public class WeatherForecastDeletedEvent : BaseEvent
     {

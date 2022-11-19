@@ -1,12 +1,9 @@
 ﻿using CleanArchitectureTemplate.Domain.Entities;
-using CleanArchitectureTemplate.Persistence.Common;
 using CleanArchitectureTemplate.Persistence.Configurations;
 using CleanArchitectureTemplate.Persistence.Settings.Options;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Persistence.EntityFramework
 {
@@ -40,12 +37,5 @@ namespace CleanArchitectureTemplate.Persistence.EntityFramework
         }
 
         public virtual DbSet<WeatherForecast> WeatherForecast => Set<WeatherForecast>();
-
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            await _mediator.DispatchDomainEvents(this);
-
-            return await base.SaveChangesAsync(cancellationToken);
-        }
     }
 }

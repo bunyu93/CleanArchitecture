@@ -1,8 +1,11 @@
-﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
-using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
+﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update;
+using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
+using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Entities;
+using CleanArchitectureTemplate.Domain.Exceptions;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 using MediatR;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -12,15 +15,21 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Create
 
     public class CreateWeatherForecastHandler : IRequestHandler<CreateWeatherForecast>
     {
-        private readonly IWeatherForecastRepository _context;
+        private readonly IUnitOfWork _context;
 
-        public CreateWeatherForecastHandler(IWeatherForecastRepository context)
+        public CreateWeatherForecastHandler(IUnitOfWork context)
         {
             _context = context;
         }
 
         public async Task<Unit> Handle(CreateWeatherForecast request, CancellationToken cancellationToken)
         {
+            var validator = new CreateWeatherForecastValidator();
+            var result = validator.Validate(request);
+
+            if (!result.IsValid)
+                throw new ValidationException(JsonSerializer.Serialize(result.Errors));
+
             var entity = new WeatherForecast()
             {
                 Date = request.WeatherForecast.Date,
@@ -32,8 +41,8 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Create
                 Summary = request.WeatherForecast.Summary
             };
 
-            await _context.Add(entity);
-            await _context.SaveChanges();
+            await _context.WeatherForecastRepository.Add(entity);
+            await _context.SaveAsync();
 
             return Unit.Value;
         }

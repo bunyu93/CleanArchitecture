@@ -23,19 +23,14 @@ namespace CleanArchitectureTemplate.Api.Middlewares
             {
                 var response = context.Response;
                 response.ContentType = "application/json";
-                var responseModel = new { Message = error.Message };
+                var responseModel = new { error.Message };
 
-                switch (error)
+                response.StatusCode = error switch
                 {
-                    case NotFoundException:
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
-                        break;
-
-                    default:
-                        // unhandled error
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                        break;
-                }
+                    NotFoundException => (int)HttpStatusCode.NotFound,
+                    ValidationException => (int)HttpStatusCode.BadRequest,
+                    _ => (int)HttpStatusCode.InternalServerError,// unhandled error
+                };
 
                 var result = JsonSerializer.Serialize(responseModel);
                 await response.WriteAsync(result);

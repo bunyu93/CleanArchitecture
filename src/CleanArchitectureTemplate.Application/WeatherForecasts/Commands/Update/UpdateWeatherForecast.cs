@@ -1,9 +1,10 @@
 ﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
-using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
+using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Exceptions;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 using MediatR;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -13,16 +14,22 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update
 
     public class UpdateWeatherForecastHandler : IRequestHandler<UpdateWeatherForecast>
     {
-        private readonly IWeatherForecastRepository _context;
+        private readonly IUnitOfWork _context;
 
-        public UpdateWeatherForecastHandler(IWeatherForecastRepository context)
+        public UpdateWeatherForecastHandler(IUnitOfWork context)
         {
             _context = context;
         }
 
         public async Task<Unit> Handle(UpdateWeatherForecast request, CancellationToken cancellationToken)
         {
-            var entityCurrent = await _context.Get(request.Id);
+            var validator = new UpdateWeatherForecastValidator();
+            var result = validator.Validate(request);
+
+            if (!result.IsValid)
+                throw new ValidationException(JsonSerializer.Serialize(result.Errors));
+
+            var entityCurrent = await _context.WeatherForecastRepository.Get(request.Id);
             var entityNew = entityCurrent;
 
             if (entityCurrent == null)
@@ -39,8 +46,8 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update
             };
             entityNew.Summary = request.WeatherForecast.Summary;
 
-            await _context.Update(entityCurrent, entityNew);
-            await _context.SaveChanges();
+            await _context.WeatherForecastRepository.Update(entityCurrent, entityNew);
+            await _context.SaveAsync();
 
             return Unit.Value;
         }

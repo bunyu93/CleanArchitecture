@@ -1,5 +1,4 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database;
-using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Persistence.EntityFramework;
 using CleanArchitectureTemplate.Persistence.Repository;
 using CleanArchitectureTemplate.Persistence.Settings.Options;
@@ -18,7 +17,7 @@ namespace CleanArchitectureTemplate.Persistence
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlite(configuration.GetValue<string>("Database:Connection")));
 
-            services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<IDapperContext, DapperContext>();
 
             return services;

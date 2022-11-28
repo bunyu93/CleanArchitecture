@@ -2,7 +2,7 @@
 
 namespace CleanArchitectureTemplate.Domain.Entities
 {
-    public class WeatherForecast : BaseEntity
+    public class WeatherForecast : Entity
     {
         public DateTime Date { get; set; }
 

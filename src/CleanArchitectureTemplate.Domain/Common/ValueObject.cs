@@ -8,6 +8,19 @@ namespace CleanArchitectureTemplate.Domain.Common
 
     public abstract class ValueObject
     {
+        protected abstract IEnumerable<object> GetEqualityComponents();
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null || obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            var other = (ValueObject)obj;
+            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        }
+
         protected static bool EqualOperator(ValueObject left, ValueObject right)
         {
             if (left is null ^ right is null)
@@ -23,17 +36,14 @@ namespace CleanArchitectureTemplate.Domain.Common
             return !EqualOperator(left, right);
         }
 
-        protected abstract IEnumerable<object> GetEqualityComponents();
-
-        public override bool Equals(object? obj)
+        public static bool operator ==(ValueObject left, ValueObject right)
         {
-            if (obj == null || obj.GetType() != GetType())
-            {
-                return false;
-            }
+            return Equals(left, right);
+        }
 
-            var other = (ValueObject)obj;
-            return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        public static bool operator !=(ValueObject left, ValueObject right)
+        {
+            return !Equals(left, right);
         }
 
         public override int GetHashCode()

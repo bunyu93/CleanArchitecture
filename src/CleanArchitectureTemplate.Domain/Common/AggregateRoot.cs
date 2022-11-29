@@ -1,9 +1,9 @@
 ﻿namespace CleanArchitectureTemplate.Domain.Common
 {
     public abstract class AggregateRoot : Entity { }
-    public abstract class AggregateRoot<T> : Entity<T> where T : notnull
+    public abstract class AggregateRoot<Tid> : Entity<Tid> where Tid : notnull
     {
-        protected AggregateRoot(T id) : base(id)
+        protected AggregateRoot(Tid id) : base(id)
         { }
     }
 }

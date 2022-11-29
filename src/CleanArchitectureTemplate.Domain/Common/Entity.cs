@@ -6,31 +6,31 @@ namespace CleanArchitectureTemplate.Domain.Common
     {
         public int Id { get; set; }
     }
-    public abstract class Entity<T> : IEquatable<Entity<T>> where T : notnull
+    public abstract class Entity<Tid> : IEquatable<Entity<Tid>> where Tid : notnull
     {
-        protected Entity(T id)
+        protected Entity(Tid id)
         {
             Id = id;
         }
 
-        public T Id { get; protected set; }
+        public Tid Id { get; protected set; }
 
         public override bool Equals(object? obj)
         {
-            return obj is Entity<T> entity && Id.Equals(entity.Id);
+            return obj is Entity<Tid> entity && Id.Equals(entity.Id);
         }
 
-        public bool Equals(Entity<T>? other)
+        public bool Equals(Entity<Tid>? other)
         {
             return Equals((object?)other);
         }
 
-        public static bool operator ==(Entity<T> left, Entity<T> right)
+        public static bool operator ==(Entity<Tid> left, Entity<Tid> right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(Entity<T> left, Entity<T> right)
+        public static bool operator !=(Entity<Tid> left, Entity<Tid> right)
         {
             return !Equals(left, right);
         }

@@ -2,7 +2,7 @@
 
 namespace CleanArchitectureTemplate.Domain.Common
 {
-    public abstract class BaseAuditableEntity
+    public abstract class BaseAuditableEntity : Entity
     {
         public DateTime Created { get; set; }
 

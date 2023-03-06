@@ -9,12 +9,12 @@ namespace CleanArchitectureTemplate.Persistence
 {
     public static class DataSeeder
     {
-        public static void Seed(ApplicationDbContext dbContext)
+        public static void Seed(EfDbContext dbContext)
         {
             WeatherData(dbContext);
         }
 
-        public static void WeatherData(ApplicationDbContext dbContext)
+        public static void WeatherData(EfDbContext dbContext)
         {
             if (dbContext.WeatherForecast.Any())
             {

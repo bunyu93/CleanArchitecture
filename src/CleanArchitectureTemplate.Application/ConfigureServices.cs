@@ -1,7 +1,5 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using CleanArchitectureTemplate.Application.WeatherForecasts;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 
 namespace CleanArchitectureTemplate.Application
 {
@@ -9,8 +7,7 @@ namespace CleanArchitectureTemplate.Application
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-            services.AddMediatR(Assembly.GetExecutingAssembly());
+            services.AddScoped<IWeatherForecastsService, WeatherForecastsService>();
 
             return services;
         }

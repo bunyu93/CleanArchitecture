@@ -12,9 +12,9 @@ namespace CleanArchitectureTemplate.Persistence.Repository
 {
     public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly ApplicationDbContext _context;
+        protected readonly EfDbContext _context;
 
-        public RepositoryBase(ApplicationDbContext context)
+        public RepositoryBase(EfDbContext context)
         {
             _context = context;
         }

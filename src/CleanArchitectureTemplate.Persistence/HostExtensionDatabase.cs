@@ -13,7 +13,7 @@ namespace CleanArchitectureTemplate.Persistence
             using var scope = host.Services.CreateScope();
             using var dbContext = scope
                 .ServiceProvider
-                .GetRequiredService<ApplicationDbContext>();
+                .GetRequiredService<EfDbContext>();
 
             var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
             var logger = loggerFactory.CreateLogger(nameof(HostExtensionDatabase));

@@ -4,13 +4,13 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 using System.Data;
 
-namespace CleanArchitectureTemplate.Persistence
+namespace CleanArchitectureTemplate.Persistence.EntityFramework
 {
-    public class DapperContext : IDapperContext
+    public class DapperDbContext : IDapperContext
     {
         private readonly IOptions<DatabaseOptions> _options;
 
-        public DapperContext(IOptions<DatabaseOptions> options)
+        public DapperDbContext(IOptions<DatabaseOptions> options)
         {
             _options = options;
         }

@@ -6,7 +6,7 @@ namespace CleanArchitectureTemplate.Persistence.Repository
 {
     public class WeatherForecastRepository : RepositoryBase<WeatherForecast>, IWeatherForecastRepository
     {
-        public WeatherForecastRepository(ApplicationDbContext context) : base(context)
+        public WeatherForecastRepository(EfDbContext context) : base(context)
         { }
     }
 }

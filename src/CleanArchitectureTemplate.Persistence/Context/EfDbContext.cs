@@ -1,24 +1,20 @@
 ﻿using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Persistence.Configurations;
 using CleanArchitectureTemplate.Persistence.Settings.Options;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace CleanArchitectureTemplate.Persistence.EntityFramework
 {
-    public class ApplicationDbContext : DbContext
+    public class EfDbContext : DbContext
     {
-        private readonly IMediator _mediator;
         private readonly IOptions<DatabaseOptions> _databaseOptions;
 
-        public ApplicationDbContext(
+        public EfDbContext(
             DbContextOptions options,
-            IOptions<DatabaseOptions> databaseOptions,
-            IMediator mediator
+            IOptions<DatabaseOptions> databaseOptions
             ) : base(options)
         {
-            _mediator = mediator;
             _databaseOptions = databaseOptions;
         }
 

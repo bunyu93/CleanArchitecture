@@ -8,10 +8,10 @@ namespace CleanArchitectureTemplate.Persistence.Repository
 {
     public class UnitOfWork : IUnitOfWork, IDisposable
     {
-        private ApplicationDbContext _context;
+        private EfDbContext _context;
         private bool _disposed = false;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(EfDbContext context)
         {
             _context = context;
             WeatherForecastRepository = new WeatherForecastRepository(_context);

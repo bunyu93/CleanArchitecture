@@ -3,7 +3,7 @@ using System;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Models
 {
-    public class CreateModelWeatherForecast
+    public class WeatherForecastUpdateModel
     {
         public DateTime Date { get; set; }
 

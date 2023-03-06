@@ -1,38 +1,43 @@
-using CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Create;
-using CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Delete;
-using CleanArchitectureTemplate.Application.WeatherForecasts.Commands.Update;
+using CleanArchitectureTemplate.Application.WeatherForecasts;
 using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
-using CleanArchitectureTemplate.Application.WeatherForecasts.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureTemplate.Api.Controllers
 {
-    public class WeatherForecastController : ApiControllerBase
+    [Route("weather-forecast")]
+    public class WeatherForecastController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IEnumerable<QueryModelWeatherForecast>> Get()
+        private readonly IWeatherForecastsService _weatherForecastsService;
+
+        public WeatherForecastController(IWeatherForecastsService weatherForecastsService)
         {
-            return await Mediator.Send(new GetWeatherForecastQuery());
+            _weatherForecastsService = weatherForecastsService;
+        }
+
+        [HttpGet]
+        public async Task<IEnumerable<WeatherForecastQueryModel>> Get()
+        {
+            return await _weatherForecastsService.GetAll();
         }
 
         [HttpGet("{id}")]
-        public async Task<QueryModelWeatherForecast> Get([FromRoute] int id)
+        public async Task<WeatherForecastQueryModel> Get([FromRoute] int id)
         {
-            return await Mediator.Send(new GetByIdWeatherForecastQuery(id));
+            return await _weatherForecastsService.GetById(id);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateModelWeatherForecast request)
+        public async Task<ActionResult> Post([FromBody] WeatherForecastCreateModel request)
         {
-            await Mediator.Send(new CreateWeatherForecast(request));
+            await _weatherForecastsService.Create(request);
 
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put([FromRoute] int id, [FromBody] UpdateModelWeatherForecast request)
+        public async Task<ActionResult> Put([FromRoute] int id, [FromBody] WeatherForecastUpdateModel request)
         {
-            await Mediator.Send(new UpdateWeatherForecast(id, request));
+            await _weatherForecastsService.Update(id, request);
 
             return NoContent();
         }
@@ -40,7 +45,7 @@ namespace CleanArchitectureTemplate.Api.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete([FromRoute] int id)
         {
-            await Mediator.Send(new DeleteWeatherForecast(id));
+            await _weatherForecastsService.Delete(id);
 
             return NoContent();
         }

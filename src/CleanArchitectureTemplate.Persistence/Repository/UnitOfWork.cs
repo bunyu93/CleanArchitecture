@@ -23,26 +23,32 @@ namespace CleanArchitectureTemplate.Persistence.Repository
         {
             _context.SaveChanges();
         }
+
         public void Commit()
         {
             _context.Database.CommitTransaction();
         }
+
         public void Rollback()
         {
             _context.Database.RollbackTransaction();
         }
+
         public async Task SaveAsync()
         {
             await _context.SaveChangesAsync();
         }
+
         public async Task CommitAsync()
         {
             await _context.Database.CommitTransactionAsync();
         }
+
         public async Task RollbackAsync()
         {
             await _context.Database.RollbackTransactionAsync();
         }
+
         protected virtual void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -54,6 +60,7 @@ namespace CleanArchitectureTemplate.Persistence.Repository
             }
             _disposed = true;
         }
+
         public void Dispose()
         {
             Dispose(true);

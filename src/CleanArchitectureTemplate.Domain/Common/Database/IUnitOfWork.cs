@@ -6,11 +6,17 @@ namespace CleanArchitectureTemplate.Domain.Common.Database
     public interface IUnitOfWork
     {
         IWeatherForecastRepository WeatherForecastRepository { get; }
+
         void Save();
+
         void Commit();
+
         void Rollback();
+
         Task SaveAsync();
+
         Task CommitAsync();
+
         Task RollbackAsync();
     }
 }

@@ -6,6 +6,7 @@ namespace CleanArchitectureTemplate.Domain.Common
     {
         public int Id { get; set; }
     }
+
     public abstract class Entity<Tid> : IEquatable<Entity<Tid>> where Tid : notnull
     {
         protected Entity(Tid id)

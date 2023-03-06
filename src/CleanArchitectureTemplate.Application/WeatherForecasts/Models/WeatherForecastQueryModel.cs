@@ -1,5 +1,4 @@
-﻿using CleanArchitectureTemplate.Domain.ValueObjects;
-using System;
+﻿using System;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts.Models
 {
@@ -9,7 +8,9 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Models
 
         public DateTime Date { get; set; }
 
-        public Temperature Temperature { get; set; } = new Temperature();
+        public int Fahrenheit { get; set; }
+
+        public int Celsius { get; set; }
 
         public string? Summary { get; set; }
     }

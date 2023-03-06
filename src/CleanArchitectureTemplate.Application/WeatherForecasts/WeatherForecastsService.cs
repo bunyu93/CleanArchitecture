@@ -12,12 +12,16 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts
     public interface IWeatherForecastsService
     {
         Task<IEnumerable<WeatherForecastQueryModel>> GetAll();
+
         Task<WeatherForecastQueryModel> GetById(int id);
 
         Task Create(WeatherForecastCreateModel payload);
+
         Task Update(int id, WeatherForecastUpdateModel payload);
+
         Task Delete(int id);
     }
+
     public class WeatherForecastsService : IWeatherForecastsService
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -85,6 +89,7 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts
             await _unitOfWork.WeatherForecastRepository.Update(entityCurrent, entityUpdated);
             await _unitOfWork.SaveAsync();
         }
+
         public async Task Delete(int id)
         {
             var entity = await _unitOfWork.WeatherForecastRepository.Get(id);

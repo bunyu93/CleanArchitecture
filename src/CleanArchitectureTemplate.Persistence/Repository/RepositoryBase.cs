@@ -24,6 +24,11 @@ namespace CleanArchitectureTemplate.Persistence.Repository
             return await _context.Set<TEntity>().FindAsync(id) ?? throw new NotFoundException($"Entity with id {id} not found");
         }
 
+        public async Task<TEntity> Get(Guid id)
+        {
+            return await _context.Set<TEntity>().FindAsync(id) ?? throw new NotFoundException($"Entity with id {id} not found");
+        }
+
         public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)
         {
             return await Task.Run(() => _context.Set<TEntity>().Where(predicate));

@@ -9,6 +9,8 @@ namespace CleanArchitectureTemplate.Domain.Common.Database
     {
         Task<TEntity> Get(int id);
 
+        Task<TEntity> Get(Guid id);
+
         Task<IEnumerable<TEntity>> GetAll();
 
         Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);

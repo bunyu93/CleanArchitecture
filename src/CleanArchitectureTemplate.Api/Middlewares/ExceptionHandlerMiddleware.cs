@@ -2,39 +2,38 @@
 using System.Net;
 using System.Text.Json;
 
-namespace CleanArchitectureTemplate.Api.Middlewares
+namespace CleanArchitectureTemplate.Api.Middlewares;
+
+public class ExceptionHandlerMiddleware
 {
-    public class ExceptionHandlerMiddleware
+    private readonly RequestDelegate _next;
+
+    public ExceptionHandlerMiddleware(RequestDelegate next)
     {
-        private readonly RequestDelegate _next;
+        _next = next;
+    }
 
-        public ExceptionHandlerMiddleware(RequestDelegate next)
+    public async Task Invoke(HttpContext context)
+    {
+        try
         {
-            _next = next;
+            await _next(context);
         }
-
-        public async Task Invoke(HttpContext context)
+        catch (Exception error)
         {
-            try
-            {
-                await _next(context);
-            }
-            catch (Exception error)
-            {
-                var response = context.Response;
-                response.ContentType = "application/json";
-                var responseModel = new { error.Message };
+            var response = context.Response;
+            response.ContentType = "application/json";
+            var responseModel = new { error.Message };
 
-                response.StatusCode = error switch
-                {
-                    NotFoundException => (int)HttpStatusCode.NotFound,
-                    ValidationException => (int)HttpStatusCode.BadRequest,
-                    _ => (int)HttpStatusCode.InternalServerError,// unhandled error
-                };
+            response.StatusCode = error switch
+            {
+                NotFoundException => (int)HttpStatusCode.NotFound,
+                ValidationException => (int)HttpStatusCode.BadRequest,
+                _ => (int)HttpStatusCode.InternalServerError,// unhandled error
+            };
 
-                var result = JsonSerializer.Serialize(responseModel);
-                await response.WriteAsync(result);
-            }
+            var result = JsonSerializer.Serialize(responseModel);
+            await response.WriteAsync(result);
         }
     }
 }

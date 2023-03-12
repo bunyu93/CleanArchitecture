@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace CleanArchitectureTemplate.Domain.Exceptions
+namespace CleanArchitectureTemplate.Domain.Exceptions;
+
+public class ValidationException : Exception
 {
-    public class ValidationException : Exception
+    public ValidationException(string message = "validations failed") : base(message)
     {
-        public ValidationException(string message = "validations failed") : base(message)
-        {
-        }
     }
 }

@@ -1,6 +1,7 @@
-﻿namespace CleanArchitectureTemplate.Domain.Common.Database.Repositories
+﻿using CleanArchitectureTemplate.Domain.Entities;
+
+namespace CleanArchitectureTemplate.Domain.Common.Database.Repositories;
+
+public interface IWeatherForecastRepository : IRepository<WeatherForecast>
 {
-    public interface IWeatherForecastRepository : IRepository<WeatherForecast>
-    {
-    }
 }

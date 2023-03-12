@@ -1,22 +1,21 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using System.Threading.Tasks;
 
-namespace CleanArchitectureTemplate.Domain.Common.Database
+namespace CleanArchitectureTemplate.Domain.Common.Database;
+
+public interface IUnitOfWork
 {
-    public interface IUnitOfWork
-    {
-        IWeatherForecastRepository WeatherForecastRepository { get; }
+    IWeatherForecastRepository WeatherForecastRepository { get; }
 
-        void Save();
+    void Save();
 
-        void Commit();
+    void Commit();
 
-        void Rollback();
+    void Rollback();
 
-        Task SaveAsync();
+    Task SaveAsync();
 
-        Task CommitAsync();
+    Task CommitAsync();
 
-        Task RollbackAsync();
-    }
+    Task RollbackAsync();
 }

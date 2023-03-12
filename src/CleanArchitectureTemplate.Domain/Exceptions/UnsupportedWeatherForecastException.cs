@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace CleanArchitectureTemplate.Domain.Exceptions
+namespace CleanArchitectureTemplate.Domain.Exceptions;
+
+public class UnsupportedWeatherForecastException : Exception
 {
-    public class UnsupportedWeatherForecastException : Exception
+    public UnsupportedWeatherForecastException(string code)
+        : base($"WeatherForecast \"{code}\" is unsupported.")
     {
-        public UnsupportedWeatherForecastException(string code)
-            : base($"WeatherForecast \"{code}\" is unsupported.")
-        {
-        }
     }
 }

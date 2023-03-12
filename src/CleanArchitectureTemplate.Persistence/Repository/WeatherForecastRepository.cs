@@ -2,11 +2,10 @@
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Persistence.EntityFramework;
 
-namespace CleanArchitectureTemplate.Persistence.Repository
+namespace CleanArchitectureTemplate.Persistence.Repository;
+
+public class WeatherForecastRepository : RepositoryBase<WeatherForecast>, IWeatherForecastRepository
 {
-    public class WeatherForecastRepository : RepositoryBase<WeatherForecast>, IWeatherForecastRepository
-    {
-        public WeatherForecastRepository(EfDbContext context) : base(context)
-        { }
-    }
+    public WeatherForecastRepository(EfDbContext context) : base(context)
+    { }
 }

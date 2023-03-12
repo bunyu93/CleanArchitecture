@@ -1,9 +1,8 @@
 ﻿using System.Data;
 
-namespace CleanArchitectureTemplate.Domain.Common.Database
+namespace CleanArchitectureTemplate.Domain.Common.Database;
+
+public interface IDapperContext
 {
-    public interface IDapperContext
-    {
-        IDbConnection CreateConnection();
-    }
+    IDbConnection CreateConnection();
 }

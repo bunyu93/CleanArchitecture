@@ -22,7 +22,7 @@ public class WeatherForecastTest
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
-        services.AddSingleton<IDapperContext, DapperDbContext>();
+        services.AddScoped<IDapperContext, DapperDbContext>();
 
         _services = await Task.Run(() => services.BuildServiceProvider());
     }

@@ -3,7 +3,6 @@ using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Exceptions;
 using CleanArchitectureTemplate.Domain.ValueObjects;
-using Dapper;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -35,24 +34,14 @@ public class WeatherForecastsService : IWeatherForecastsService
 
     public async Task<IEnumerable<WeatherForecastQueryModel>> GetAll()
     {
-        using var db = _dapper.CreateConnection();
-        db.Open();
-        var data = await db.QueryAsync<WeatherForecastQueryModel>("SELECT * FROM WeatherForecast") ?? throw new NotFoundException();
-        db.Close();
-
-        return data.AsList();
+        return await _dapper.QueryHandler<WeatherForecastQueryModel>("SELECT * FROM WeatherForecast");
     }
 
     public async Task<WeatherForecastQueryModel> GetById(int id)
     {
         var parameters = new { Id = id };
 
-        using var db = _dapper.CreateConnection();
-        db.Open();
-        var data = await db.QueryFirstOrDefaultAsync<WeatherForecastQueryModel>("SELECT * FROM WeatherForecast WHERE id = @Id", parameters) ?? throw new NotFoundException(id.ToString());
-        db.Close();
-
-        return data;
+        return await _dapper.QueryFirstOrDefaultHandler<WeatherForecastQueryModel>("SELECT * FROM WeatherForecast WHERE id = @Id", parameters);
     }
 
     public async Task Create(WeatherForecastCreateModel payload)

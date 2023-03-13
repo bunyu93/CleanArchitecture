@@ -1,7 +1,7 @@
 ﻿using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 
-namespace CleanArchitectureTemplate.Test.WeatherForecastTests;
+namespace CleanArchitectureTemplate.Test.WeatherForecastTests.Mocks;
 
 public static class MockWeatherForecastData
 {

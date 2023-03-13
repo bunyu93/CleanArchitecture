@@ -1,7 +1,7 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 
-namespace CleanArchitectureTemplate.Test.WeatherForecastTests;
+namespace CleanArchitectureTemplate.Test.WeatherForecastTests.Mocks;
 
 public class MockUnitOfWork : IUnitOfWork
 {

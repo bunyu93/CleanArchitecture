@@ -29,7 +29,7 @@ public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : clas
         return await _context.Set<TEntity>().FindAsync(id) ?? throw new NotFoundException($"Entity with id {id} not found");
     }
 
-    public async Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate)
+    public async Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate)
     {
         return await Task.Run(() => _context.Set<TEntity>().Where(predicate));
     }

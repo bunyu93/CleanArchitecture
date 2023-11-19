@@ -13,7 +13,7 @@ public interface IRepository<TEntity> where TEntity : class
 
     Task<IEnumerable<TEntity>> GetAll();
 
-    Task<IEnumerable<TEntity>> Find(Expression<Func<TEntity, bool>> predicate);
+    Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate);
 
     Task Add(TEntity entity);
 

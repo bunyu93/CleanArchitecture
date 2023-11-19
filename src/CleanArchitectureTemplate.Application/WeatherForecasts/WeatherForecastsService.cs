@@ -4,6 +4,7 @@ using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Exceptions;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts;
@@ -24,25 +25,18 @@ public interface IWeatherForecastsService
 public class WeatherForecastsService : IWeatherForecastsService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly IDapperContext _dapper;
 
-    public WeatherForecastsService(IUnitOfWork unitOfWork, IDapperContext dapper)
+    public WeatherForecastsService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _dapper = dapper;
     }
 
     public async Task<IEnumerable<WeatherForecastQueryModel>> GetAll()
-    {
-        return await _dapper.QueryHandler<WeatherForecastQueryModel>("SELECT * FROM WeatherForecast");
-    }
+        => await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM WeatherForecast");
 
     public async Task<WeatherForecastQueryModel> GetById(int id)
-    {
-        var parameters = new { Id = id };
-
-        return await _dapper.QueryFirstOrDefaultHandler<WeatherForecastQueryModel>("SELECT * FROM WeatherForecast WHERE id = @Id", parameters);
-    }
+        => (await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM WeatherForecast WHERE id = {id}")).FirstOrDefault() ??
+            throw new NotFoundException("WeatherForecast", id.ToString());
 
     public async Task Create(WeatherForecastCreateModel payload)
     {

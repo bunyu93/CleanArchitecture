@@ -1,7 +1,9 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Persistence.EntityFramework;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Persistence.Repository;
@@ -32,6 +34,16 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     public void Rollback()
     {
         _context.Database.RollbackTransaction();
+    }
+
+    public async Task<IQueryable<T>> SqlQueryRaw<T>(string sql, params object[] parameters)
+    {
+        return await Task.Run(() => _context.Database.SqlQueryRaw<T>(sql, parameters));
+    }
+
+    public async Task<IQueryable<T>> SqlQuery<T>(FormattableString sql)
+    {
+        return await Task.Run(() => _context.Database.SqlQuery<T>(sql));
     }
 
     public async Task SaveAsync()

@@ -18,8 +18,6 @@ public static class HostExtensionDatabase
         var loggerFactory = scope.ServiceProvider.GetRequiredService<ILoggerFactory>();
         var logger = loggerFactory.CreateLogger(nameof(HostExtensionDatabase));
 
-        dbContext.Database.EnsureCreated();
-
         try
         {
             dbContext.Database.Migrate();

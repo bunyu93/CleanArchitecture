@@ -41,4 +41,17 @@ public class MockUnitOfWork : IUnitOfWork
     {
         throw new NotImplementedException();
     }
+
+    public Task<IQueryable<T>> SqlQueryRaw<T>(string sql, params object[] parameters)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<IQueryable<WeatherForecastQueryModel>> SqlQuery<WeatherForecastQueryModel>(FormattableString sql)
+    {
+        var data = MockWeatherForecastData.WeatherForecastQueryModelAll()
+                    .AsQueryable();
+
+        return (IQueryable<WeatherForecastQueryModel>)await Task.Run(() => data);
+    }
 }

@@ -1,7 +1,6 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.ValueObjects;
-using System.Linq.Expressions;
 
 namespace CleanArchitectureTemplate.Test.WeatherForecastTests.Mocks;
 
@@ -17,7 +16,7 @@ public class MockWeatherForecastRepository : IWeatherForecastRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<WeatherForecast>> Find(Expression<Func<WeatherForecast, bool>> predicate)
+    public Task<IEnumerable<WeatherForecast>> Find(Func<WeatherForecast, bool> predicate)
     {
         throw new NotImplementedException();
     }

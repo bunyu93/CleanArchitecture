@@ -21,8 +21,6 @@ public static class ConfigureServices
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();
 
-        services.AddSingleton<IDapperContext, DapperDbContext>();
-
         return services;
     }
 }

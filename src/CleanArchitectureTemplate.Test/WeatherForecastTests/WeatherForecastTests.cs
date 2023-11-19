@@ -7,32 +7,30 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CleanArchitectureTemplate.Test.WeatherForecastTests;
 
-public class WeatherForecastTest
+public class WeatherForecastTests
 {
     private IServiceProvider _services;
 
-    [SetUp]
-    public void Setup()
+    public WeatherForecastTests()
     {
         var services = new ServiceCollection();
 
         services.AddScoped<IWeatherForecastRepository, MockWeatherForecastRepository>();
-        services.AddScoped<IDapperContext, MockDapperDbContext>();
         services.AddScoped<IUnitOfWork, MockUnitOfWork>();
         services.AddScoped<IWeatherForecastsService, WeatherForecastsService>();
 
         _services = services.BuildServiceProvider();
     }
 
-    [Test]
+    [Fact]
     public async Task WeatherForecast_GetAll_ReturnsAllRecords()
     {
         var weatherForecastService = _services.GetRequiredService<IWeatherForecastsService>();
 
         var testData = await weatherForecastService.GetAll();
 
-        Assert.That(testData.Count(), Is.EqualTo(6));
-        Assert.That(testData, Is.InstanceOf<IEnumerable<WeatherForecastQueryModel>>());
-        Assert.That(testData.FirstOrDefault()?.Summary, Is.EqualTo("Warm"));
+        Assert.Equal(6, testData.Count());
+        Assert.Equal("Warm", testData.FirstOrDefault()?.Summary);
+        Assert.IsAssignableFrom<IEnumerable<WeatherForecastQueryModel>>(testData);
     }
 }

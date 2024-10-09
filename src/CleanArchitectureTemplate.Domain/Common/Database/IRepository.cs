@@ -1,19 +1,19 @@
-﻿using System;
+﻿using CleanArchitectureTemplate.Domain.Result;
+using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Domain.Common.Database;
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<TEntity> Get(int id);
+    Task<Result<TEntity>> Get(int id);
 
-    Task<TEntity> Get(Guid id);
+    Task<Result<TEntity>> Get(Guid id);
 
-    Task<IEnumerable<TEntity>> GetAll();
+    Task<Result<IEnumerable<TEntity>>> GetAll();
 
-    Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate);
+    Task<Result<IEnumerable<TEntity>>> Find(Func<TEntity, bool> predicate);
 
     Task Add(TEntity entity);
 

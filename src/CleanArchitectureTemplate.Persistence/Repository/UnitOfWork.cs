@@ -8,18 +8,12 @@ using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Persistence.Repository;
 
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class UnitOfWork(EfDbContext context, IWeatherForecastRepository weatherForecastRepository) : IUnitOfWork, IDisposable
 {
-    private EfDbContext _context;
+    private EfDbContext _context = context;
     private bool _disposed = false;
 
-    public UnitOfWork(EfDbContext context, IWeatherForecastRepository weatherForecastRepository)
-    {
-        _context = context;
-        WeatherForecastRepository = weatherForecastRepository;
-    }
-
-    public IWeatherForecastRepository WeatherForecastRepository { get; private set; }
+    public IWeatherForecastRepository WeatherForecastRepository { get; private set; } = weatherForecastRepository;
 
     public void Save()
     {

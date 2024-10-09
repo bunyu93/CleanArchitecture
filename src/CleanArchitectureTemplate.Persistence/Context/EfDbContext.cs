@@ -6,17 +6,12 @@ using Microsoft.Extensions.Options;
 
 namespace CleanArchitectureTemplate.Persistence.EntityFramework;
 
-public class EfDbContext : DbContext
+public class EfDbContext(
+    DbContextOptions options,
+    IOptions<DatabaseOptions> databaseOptions
+        ) : DbContext(options)
 {
-    private readonly IOptions<DatabaseOptions> _databaseOptions;
-
-    public EfDbContext(
-        DbContextOptions options,
-        IOptions<DatabaseOptions> databaseOptions
-        ) : base(options)
-    {
-        _databaseOptions = databaseOptions;
-    }
+    private readonly IOptions<DatabaseOptions> _databaseOptions = databaseOptions;
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     => options.UseSqlite(_databaseOptions.Value.Connection);

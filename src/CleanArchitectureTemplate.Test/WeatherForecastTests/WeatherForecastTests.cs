@@ -27,7 +27,7 @@ public class WeatherForecastTests
     {
         var weatherForecastService = _services.GetRequiredService<IWeatherForecastsService>();
 
-        var testData = await weatherForecastService.GetAll();
+        var testData = (await weatherForecastService.GetAll()).Value;
 
         Assert.Equal(6, testData.Count());
         Assert.Equal("Warm", testData.FirstOrDefault()?.Summary);

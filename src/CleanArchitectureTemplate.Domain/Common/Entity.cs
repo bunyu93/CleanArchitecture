@@ -7,14 +7,9 @@ public abstract class Entity
     public int Id { get; set; }
 }
 
-public abstract class Entity<Tid> : IEquatable<Entity<Tid>> where Tid : notnull
+public abstract class Entity<Tid>(Tid id) : IEquatable<Entity<Tid>> where Tid : notnull
 {
-    protected Entity(Tid id)
-    {
-        Id = id;
-    }
-
-    public Tid Id { get; protected set; }
+    public Tid Id { get; protected set; } = id;
 
     public override bool Equals(object? obj)
     {

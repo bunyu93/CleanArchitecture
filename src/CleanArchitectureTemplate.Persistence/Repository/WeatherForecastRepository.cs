@@ -4,8 +4,6 @@ using CleanArchitectureTemplate.Persistence.EntityFramework;
 
 namespace CleanArchitectureTemplate.Persistence.Repository;
 
-public class WeatherForecastRepository : RepositoryBase<WeatherForecast>, IWeatherForecastRepository
+public class WeatherForecastRepository(EfDbContext context) : RepositoryBase<WeatherForecast>(context), IWeatherForecastRepository
 {
-    public WeatherForecastRepository(EfDbContext context) : base(context)
-    { }
 }

@@ -1,5 +1,6 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Domain.Entities;
+using CleanArchitectureTemplate.Domain.Result;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 
 namespace CleanArchitectureTemplate.Test.WeatherForecastTests.Mocks;
@@ -16,22 +17,22 @@ public class MockWeatherForecastRepository : IWeatherForecastRepository
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<WeatherForecast>> Find(Func<WeatherForecast, bool> predicate)
+    public Task<Result<IEnumerable<WeatherForecast>>> Find(Func<WeatherForecast, bool> predicate)
     {
         throw new NotImplementedException();
     }
 
-    public Task<WeatherForecast> Get(int id)
+    public Task<Result<WeatherForecast>> Get(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<WeatherForecast> Get(Guid id)
+    public Task<Result<WeatherForecast>> Get(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public async Task<IEnumerable<WeatherForecast>> GetAll()
+    public async Task<Result<IEnumerable<WeatherForecast>>> GetAll()
     {
         var data = new List<WeatherForecast>() {
             new WeatherForecast() {

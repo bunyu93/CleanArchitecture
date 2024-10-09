@@ -1,42 +1,56 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database;
-using CleanArchitectureTemplate.Domain.Exceptions;
+using CleanArchitectureTemplate.Domain.Result;
 using CleanArchitectureTemplate.Persistence.EntityFramework;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Persistence.Repository;
 
-public class RepositoryBase<TEntity> : IRepository<TEntity> where TEntity : class
+public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity> where TEntity : class
 {
-    protected readonly EfDbContext _context;
+    protected readonly EfDbContext _context = context;
 
-    public RepositoryBase(EfDbContext context)
+    public async Task<Result<TEntity>> Get(int id)
     {
-        _context = context;
+        var result = await _context.Set<TEntity>().FindAsync(id);
+
+        if (result is null)
+            return Result<TEntity>.Failure(Error.NotFound("404", $"Entity with id {id} not found"));
+        else
+            return Result<TEntity>.Success(result);
     }
 
-    public async Task<TEntity> Get(int id)
+    public async Task<Result<TEntity>> Get(Guid id)
     {
-        return await _context.Set<TEntity>().FindAsync(id) ?? throw new NotFoundException($"Entity with id {id} not found");
+        var result = await _context.Set<TEntity>().FindAsync(id);
+
+        if (result is null)
+            return Result<TEntity>.Failure(Error.NotFound("404", $"Entity with id {id} not found"));
+        else
+            return Result<TEntity>.Success(result);
     }
 
-    public async Task<TEntity> Get(Guid id)
+    public async Task<Result<IEnumerable<TEntity>>> Find(Func<TEntity, bool> predicate)
     {
-        return await _context.Set<TEntity>().FindAsync(id) ?? throw new NotFoundException($"Entity with id {id} not found");
+        var result = await Task.Run(() => _context.Set<TEntity>().Where(predicate));
+
+        if (result is null)
+            return Result<IEnumerable<TEntity>>.Failure(Error.Failure("500", "Cannot get the entities"));
+        else
+            return Result<IEnumerable<TEntity>>.Success(result);
     }
 
-    public async Task<IEnumerable<TEntity>> Find(Func<TEntity, bool> predicate)
+    public async Task<Result<IEnumerable<TEntity>>> GetAll()
     {
-        return await Task.Run(() => _context.Set<TEntity>().Where(predicate));
-    }
+        var result = await _context.Set<TEntity>().ToListAsync();
 
-    public async Task<IEnumerable<TEntity>> GetAll()
-    {
-        return await _context.Set<TEntity>().ToListAsync();
+        if (result is null)
+            return Result<IEnumerable<TEntity>>.Failure(Error.Failure("500", "Cannot get the entities"));
+        else
+            return Result<IEnumerable<TEntity>>.Success(result);
     }
 
     public async Task Add(TEntity entity)

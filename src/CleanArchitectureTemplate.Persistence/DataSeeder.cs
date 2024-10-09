@@ -1,6 +1,6 @@
 ﻿using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.ValueObjects;
-using CleanArchitectureTemplate.Persistence.EntityFramework;
+using CleanArchitectureTemplate.Persistence.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;

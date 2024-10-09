@@ -1,4 +1,4 @@
-﻿using CleanArchitectureTemplate.Persistence.EntityFramework;
+﻿using CleanArchitectureTemplate.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -4,7 +4,7 @@ using CleanArchitectureTemplate.Persistence.Settings.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace CleanArchitectureTemplate.Persistence.EntityFramework;
+namespace CleanArchitectureTemplate.Persistence.Context;
 
 public class EfDbContext(
     DbContextOptions options,

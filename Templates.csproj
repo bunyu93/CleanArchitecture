@@ -8,6 +8,8 @@
         <Description>Templates to use when creating an Cloud application</Description>
         <PackageTags>dotnet-new;templates;</PackageTags>
 
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+
         <Copyright>Bunyamin Sakar</Copyright>
         <PackageCopyright>Copyright © Bunyamin Sakar. All rights Reserved</PackageCopyright>
         <PackageProjectUrl>https://github.com/bunyu93/CleanArchitecture</PackageProjectUrl>
@@ -24,7 +26,11 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <NoDefaultExcludes>true</NoDefaultExcludes>
     </PropertyGroup>
-
+    
+    <ItemGroup>
+        <None Include="README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+    
     <ItemGroup>
         <Content Include="src\**\*" Exclude="src\**\bin\**;src\**\obj\**;src\.vs;src\**\.vs;src\*.sln" />
         <Compile Remove="**\*" />

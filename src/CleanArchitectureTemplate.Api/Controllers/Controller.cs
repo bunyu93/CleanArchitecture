@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureTemplate.Api.Controllers;
 
-public class BaseController : ControllerBase
+public class Controller : ControllerBase
 {
     protected IActionResult Problem(Error error)
     {

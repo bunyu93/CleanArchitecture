@@ -7,7 +7,7 @@ namespace CleanArchitectureTemplate.Api.Controllers;
 
 [ApiController]
 [Route("weather-forecast")]
-public class WeatherForecastController(IWeatherForecastsService weatherForecastsService) : BaseController
+public class WeatherForecastController(IWeatherForecastsService weatherForecastsService) : Controller
 {
     private readonly IWeatherForecastsService _weatherForecastsService = weatherForecastsService;
 

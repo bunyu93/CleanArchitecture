@@ -3,6 +3,7 @@ using CleanArchitectureTemplate.Api.Middlewares;
 using CleanArchitectureTemplate.Application;
 using CleanArchitectureTemplate.Infrastructure;
 using CleanArchitectureTemplate.Persistence;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,8 +21,8 @@ app.MigrateDbAndSeedData();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+    app.MapScalarApiReference();
     app.UseDeveloperExceptionPage();
 }
 else

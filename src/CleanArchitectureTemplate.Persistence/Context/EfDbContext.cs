@@ -20,7 +20,9 @@ public class EfDbContext(
     {
         //Write Fluent API configurations here
         //Property Configurations
-        modelBuilder.HasDefaultSchema("Weather");
+
+        // Other databases support the default schema
+        // modelBuilder.HasDefaultSchema("Weather");
 
         base.OnModelCreating(modelBuilder);
 

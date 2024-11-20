@@ -5,6 +5,8 @@ namespace CleanArchitectureTemplate.Application.WeatherForecasts.Models;
 
 public class WeatherForecastCreateModel
 {
+    public int Id { get; set; }
+
     public DateTime Date { get; set; }
 
     public Temperature Temperature { get; set; } = new Temperature();

@@ -1,4 +1,5 @@
-﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
+﻿using CleanArchitectureTemplate.Application.WeatherForecasts.Mappings;
+using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
 using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Result;
@@ -13,11 +14,13 @@ public interface IWeatherForecastsService
 {
     Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll();
 
+    Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf();
+
     Task<Result<WeatherForecastQueryModel>> GetById(int id);
 
     Task<Result> Create(WeatherForecastCreateModel payload);
 
-    Task<Result> Update(int id, WeatherForecastUpdateModel payload);
+    Task<Result> Update(WeatherForecastUpdateModel payload);
 
     Task<Result> Delete(int id);
 }
@@ -28,13 +31,20 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
     public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll()
     {
-
         var result = await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM WeatherForecast");
 
         if (result is null)
             return Result<IEnumerable<WeatherForecastQueryModel>>.Failure(Error.NotFound("404", "Cannot get the entities"));
         else
             return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
+    }
+
+    public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf()
+    {
+        var WeatherForecasts = await _unitOfWork.WeatherForecastRepository.GetAll();
+        var result = WeatherForecasts.Value.Select(x => x.MapToQueryModel());
+
+        return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
     }
 
     public async Task<Result<WeatherForecastQueryModel>> GetById(int id)
@@ -66,8 +76,9 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
         return Result.Success();
     }
 
-    public async Task<Result> Update(int id, WeatherForecastUpdateModel payload)
+    public async Task<Result> Update(WeatherForecastUpdateModel payload)
     {
+        var id = payload.Id;
         var entityCurrent = await _unitOfWork.WeatherForecastRepository.Get(id);
 
         if (!entityCurrent.IsSuccess)

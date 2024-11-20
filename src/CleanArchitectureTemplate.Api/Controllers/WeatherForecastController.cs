@@ -24,6 +24,19 @@ public class WeatherForecastController(IWeatherForecastsService weatherForecasts
         );
     }
 
+    [HttpGet("ef")]
+    [ProducesResponseType(typeof(IEnumerable<WeatherForecastQueryModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetEf()
+    {
+        var result = await _weatherForecastsService.GetAllEf();
+
+        return result.Match(
+            onSuccess: Ok,
+            onFailure: Problem
+        );
+    }
+
     [HttpGet("{id}")]
     [ProducesResponseType(typeof(WeatherForecastQueryModel), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,12 +63,12 @@ public class WeatherForecastController(IWeatherForecastsService weatherForecasts
        );
     }
 
-    [HttpPut("{id}")]
+    [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Put([FromRoute] int id, [FromBody] WeatherForecastUpdateModel request)
+    public async Task<IActionResult> Put([FromBody] WeatherForecastUpdateModel request)
     {
-        var result = await _weatherForecastsService.Update(id, request);
+        var result = await _weatherForecastsService.Update(request);
 
         return result.Match(
            onSuccess: NoContent,
@@ -63,10 +76,10 @@ public class WeatherForecastController(IWeatherForecastsService weatherForecasts
        );
     }
 
-    [HttpDelete("{id}")]
+    [HttpDelete]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete([FromRoute] int id)
+    public async Task<IActionResult> Delete([FromBody] int id)
     {
         var result = await _weatherForecastsService.Delete(id);
 

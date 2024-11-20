@@ -20,8 +20,8 @@ public static class HostExtensionDatabase
 
         try
         {
-            dbContext.Database.EnsureCreated();
             dbContext.Database.Migrate();
+
             DataSeeder.Seed(dbContext);
         }
         catch (System.Exception e)

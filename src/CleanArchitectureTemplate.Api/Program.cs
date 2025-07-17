@@ -35,7 +35,6 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
-app.UseStaticFiles();
 
 app.UseAuthentication();
 app.UseAuthorization();

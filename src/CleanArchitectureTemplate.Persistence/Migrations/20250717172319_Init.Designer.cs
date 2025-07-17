@@ -11,14 +11,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CleanArchitectureTemplate.Persistence.Migrations
 {
     [DbContext(typeof(EfDbContext))]
-    [Migration("20241120220043_init")]
-    partial class init
+    [Migration("20250717172319_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
 
             modelBuilder.Entity("CleanArchitectureTemplate.Domain.Entities.WeatherForecast", b =>
                 {

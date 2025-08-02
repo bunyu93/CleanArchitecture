@@ -1,6 +1,6 @@
 using CleanArchitectureTemplate.Application.WeatherForecasts;
 using CleanArchitectureTemplate.Application.WeatherForecasts.Models;
-using CleanArchitectureTemplate.Domain.Result;
+using CleanArchitectureTemplate.Domain.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureTemplate.Api.Controllers;

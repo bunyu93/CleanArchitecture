@@ -1,6 +1,6 @@
 ﻿using CleanArchitectureTemplate.Domain.Common.Database.Repositories;
 using CleanArchitectureTemplate.Domain.Entities;
-using CleanArchitectureTemplate.Domain.Result;
+using CleanArchitectureTemplate.Domain.Results;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 
 namespace CleanArchitectureTemplate.Test.WeatherForecastTests.Mocks;
@@ -22,12 +22,12 @@ public class MockWeatherForecastRepository : IWeatherForecastRepository
         throw new NotImplementedException();
     }
 
-    public Task<Result<WeatherForecast>> Get(int id)
+    public Task<Result<WeatherForecast>> GetById(int id)
     {
         throw new NotImplementedException();
     }
 
-    public Task<Result<WeatherForecast>> Get(Guid id)
+    public Task<Result<WeatherForecast>> GetById(Guid id)
     {
         throw new NotImplementedException();
     }

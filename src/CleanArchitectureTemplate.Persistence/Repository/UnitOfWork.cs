@@ -11,7 +11,7 @@ namespace CleanArchitectureTemplate.Persistence.Repository;
 public class UnitOfWork(EfDbContext context, IWeatherForecastRepository weatherForecastRepository) : IUnitOfWork, IDisposable
 {
     private EfDbContext _context = context;
-    private bool _disposed = false;
+    private bool _disposed;
 
     public IWeatherForecastRepository WeatherForecastRepository { get; private set; } = weatherForecastRepository;
 

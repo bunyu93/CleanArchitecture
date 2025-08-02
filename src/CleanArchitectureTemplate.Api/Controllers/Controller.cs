@@ -1,11 +1,11 @@
-﻿using CleanArchitectureTemplate.Domain.Result;
+﻿using CleanArchitectureTemplate.Domain.Results;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitectureTemplate.Api.Controllers;
 
 public class Controller : ControllerBase
 {
-    protected IActionResult Problem(Error error)
+    protected IActionResult Problem(ResultError error)
     {
         var statusCode = error.ErrorType switch
         {

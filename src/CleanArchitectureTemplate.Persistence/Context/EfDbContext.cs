@@ -13,8 +13,8 @@ public class EfDbContext(
 {
     private readonly IOptions<DatabaseOptions> _databaseOptions = databaseOptions;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder options)
-    => options.UseSqlite(_databaseOptions.Value.Connection);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    => optionsBuilder.UseSqlite(_databaseOptions.Value.Connection);
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

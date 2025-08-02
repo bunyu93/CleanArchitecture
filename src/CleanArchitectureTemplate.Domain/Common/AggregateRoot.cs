@@ -3,6 +3,6 @@
 public abstract class AggregateRoot : Entity
 { }
 
-public abstract class AggregateRoot<Tid>(Tid id) : Entity<Tid>(id) where Tid : notnull
+public abstract class AggregateRoot<TId>(TId id) : Entity<TId>(id) where TId : notnull
 {
 }

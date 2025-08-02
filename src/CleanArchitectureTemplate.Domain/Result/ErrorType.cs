@@ -1,4 +1,4 @@
-﻿namespace CleanArchitectureTemplate.Domain.Result;
+﻿namespace CleanArchitectureTemplate.Domain.Results;
 
 public enum ErrorType
 {

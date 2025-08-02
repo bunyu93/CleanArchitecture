@@ -6,20 +6,20 @@ namespace CleanArchitectureTemplate.Persistence.Configurations;
 
 public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherForecast>
 {
-    public void Configure(EntityTypeBuilder<WeatherForecast> modelBuilder)
+    public void Configure(EntityTypeBuilder<WeatherForecast> builder)
     {
         // TABLE
-        modelBuilder.ToTable("WeatherForecast");
+        builder.ToTable("WeatherForecast");
 
         // PRIMARY KEY
-        modelBuilder.HasKey(i => i.Id).HasName("PK_WeatherForecast");
+        builder.HasKey(i => i.Id).HasName("PK_WeatherForecast");
 
         // PROPERTIES
-        modelBuilder.Property(i => i.Date)
+        builder.Property(i => i.Date)
           .HasColumnName("Date")
           .HasColumnType("DATE");
 
-        modelBuilder.OwnsOne(i => i.Temperature, j =>
+        builder.OwnsOne(i => i.Temperature, j =>
         {
             j.Property(x => x.Celsius)
                 .HasColumnName("Celsius")
@@ -30,7 +30,7 @@ public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherFore
                 .HasColumnType("INTEGER");
         });
 
-        modelBuilder.Property(i => i.Summary)
+        builder.Property(i => i.Summary)
             .HasColumnName("Summary")
             .HasColumnType("STRING");
     }

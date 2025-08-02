@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
 
-namespace CleanArchitectureTemplate.Domain.Result;
+namespace CleanArchitectureTemplate.Domain.Results;
 
 public class Result
 {
@@ -11,7 +11,7 @@ public class Result
         Error = default;
     }
 
-    protected Result(Error error)
+    protected Result(ResultError error)
     {
         IsSuccess = false;
         Error = error;
@@ -20,15 +20,15 @@ public class Result
     public bool IsSuccess { get; }
 
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-    public Error? Error { get; }
+    public ResultError? Error { get; }
 
-    public static implicit operator Result(Error error) =>
+    public static implicit operator Result(ResultError error) =>
         new(error);
 
     public static Result Success() =>
         new();
 
-    public static Result Failure(Error error) =>
+    public static Result Failure(ResultError error) =>
         new(error);
 }
 
@@ -44,7 +44,7 @@ public sealed class Result<TValue> : Result
     }
 
     private Result(
-        Error error
+        ResultError error
     ) : base(error)
     {
         _value = default;
@@ -53,7 +53,7 @@ public sealed class Result<TValue> : Result
     public TValue Value =>
         IsSuccess ? _value! : throw new InvalidOperationException("Value can not be accessed when IsSuccess is false");
 
-    public static implicit operator Result<TValue>(Error error) =>
+    public static implicit operator Result<TValue>(ResultError error) =>
         new(error);
 
     public static implicit operator Result<TValue>(TValue value) =>
@@ -62,6 +62,6 @@ public sealed class Result<TValue> : Result
     public static Result<TValue> Success(TValue value) =>
         new(value);
 
-    public static new Result<TValue> Failure(Error error) =>
+    public static new Result<TValue> Failure(ResultError error) =>
         new(error);
 }

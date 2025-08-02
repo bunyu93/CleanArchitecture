@@ -1,4 +1,4 @@
-﻿using CleanArchitectureTemplate.Domain.Result;
+﻿using CleanArchitectureTemplate.Domain.Results;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -7,9 +7,9 @@ namespace CleanArchitectureTemplate.Domain.Common.Database;
 
 public interface IRepository<TEntity> where TEntity : class
 {
-    Task<Result<TEntity>> Get(int id);
+    Task<Result<TEntity>> GetById(int id);
 
-    Task<Result<TEntity>> Get(Guid id);
+    Task<Result<TEntity>> GetById(Guid id);
 
     Task<Result<IEnumerable<TEntity>>> GetAll();
 

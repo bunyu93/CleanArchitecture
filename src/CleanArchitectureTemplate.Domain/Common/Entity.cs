@@ -7,26 +7,26 @@ public abstract class Entity
     public int Id { get; set; }
 }
 
-public abstract class Entity<Tid>(Tid id) : IEquatable<Entity<Tid>> where Tid : notnull
+public abstract class Entity<TId>(TId id) : IEquatable<Entity<TId>> where TId : notnull
 {
-    public Tid Id { get; protected set; } = id;
+    public TId Id { get; protected set; } = id;
 
     public override bool Equals(object? obj)
     {
-        return obj is Entity<Tid> entity && Id.Equals(entity.Id);
+        return obj is Entity<TId> entity && Id.Equals(entity.Id);
     }
 
-    public bool Equals(Entity<Tid>? other)
+    public bool Equals(Entity<TId>? other)
     {
         return Equals((object?)other);
     }
 
-    public static bool operator ==(Entity<Tid> left, Entity<Tid> right)
+    public static bool operator ==(Entity<TId> left, Entity<TId> right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Entity<Tid> left, Entity<Tid> right)
+    public static bool operator !=(Entity<TId> left, Entity<TId> right)
     {
         return !Equals(left, right);
     }

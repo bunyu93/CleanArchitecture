@@ -398,3 +398,4 @@ FodyWeavers.xsd
 *.db-wal
 
 .DS_Store
+.idea

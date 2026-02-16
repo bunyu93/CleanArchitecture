@@ -11,3 +11,8 @@ find . -name ".VolumeIcon.icns" -delete
 find . -name ".LSOverride" -delete
 
 dotnet pack -c Release
+
+# command to run this script
+
+# chmod +x clean-macos-files.sh 
+# ./clean-macos-files.sh

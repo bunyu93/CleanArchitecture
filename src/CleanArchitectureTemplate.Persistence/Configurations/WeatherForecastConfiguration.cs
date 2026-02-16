@@ -9,15 +9,15 @@ public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherFore
     public void Configure(EntityTypeBuilder<WeatherForecast> builder)
     {
         // TABLE
-        builder.ToTable("WeatherForecast");
+        builder.ToTable("weather_forecasts");
 
         // PRIMARY KEY
         builder.HasKey(i => i.Id).HasName("PK_WeatherForecast");
 
         // PROPERTIES
         builder.Property(i => i.Date)
-          .HasColumnName("Date")
-          .HasColumnType("DATE");
+            .HasColumnName("Date")
+            .HasColumnType("DATE");
 
         builder.OwnsOne(i => i.Temperature, j =>
         {
@@ -32,6 +32,6 @@ public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherFore
 
         builder.Property(i => i.Summary)
             .HasColumnName("Summary")
-            .HasColumnType("STRING");
+            .HasMaxLength(200);
     }
 }

@@ -5,39 +5,47 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace CleanArchitectureTemplate.Persistence.Migrations
 {
     [DbContext(typeof(EfDbContext))]
-    [Migration("20250802112444_Init")]
-    partial class Init
+    [Migration("20260216104044_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "9.0.7");
+            modelBuilder
+                .HasAnnotation("ProductVersion", "10.0.3")
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
             modelBuilder.Entity("CleanArchitectureTemplate.Domain.Entities.WeatherForecast", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("DATE")
                         .HasColumnName("Date");
 
                     b.Property<string>("Summary")
-                        .HasColumnType("STRING")
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)")
                         .HasColumnName("Summary");
 
                     b.HasKey("Id")
                         .HasName("PK_WeatherForecast");
 
-                    b.ToTable("WeatherForecast", (string)null);
+                    b.ToTable("weather_forecasts", (string)null);
                 });
 
             modelBuilder.Entity("CleanArchitectureTemplate.Domain.Entities.WeatherForecast", b =>
@@ -45,7 +53,7 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
                     b.OwnsOne("CleanArchitectureTemplate.Domain.ValueObjects.Temperature", "Temperature", b1 =>
                         {
                             b1.Property<int>("WeatherForecastId")
-                                .HasColumnType("INTEGER");
+                                .HasColumnType("integer");
 
                             b1.Property<int>("Celsius")
                                 .HasColumnType("INTEGER")
@@ -57,7 +65,7 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
 
                             b1.HasKey("WeatherForecastId");
 
-                            b1.ToTable("WeatherForecast");
+                            b1.ToTable("weather_forecasts");
 
                             b1.WithOwner()
                                 .HasForeignKey("WeatherForecastId");

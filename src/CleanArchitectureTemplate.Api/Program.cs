@@ -1,6 +1,7 @@
 using CleanArchitectureTemplate.Api;
 using CleanArchitectureTemplate.Api.Middlewares;
 using CleanArchitectureTemplate.Application;
+using CleanArchitectureTemplate.Application.DataSeed;
 using CleanArchitectureTemplate.Infrastructure;
 using CleanArchitectureTemplate.Persistence;
 using Scalar.AspNetCore;
@@ -16,7 +17,8 @@ builder.Services.AddApiServices();
 var app = builder.Build();
 
 // Tasks that needs to be done when WebApplication is build
-app.MigrateDbAndSeedData();
+app.MigrateDb();
+app.SeedData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

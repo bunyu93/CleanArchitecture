@@ -4,6 +4,7 @@ using CleanArchitectureTemplate.Domain.Common.Database;
 using CleanArchitectureTemplate.Domain.Entities;
 using CleanArchitectureTemplate.Domain.Results;
 using CleanArchitectureTemplate.Domain.ValueObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,41 +32,48 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
     public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll()
     {
-        var result = await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM WeatherForecast");
+        IQueryable<WeatherForecastQueryModel>? result =
+            await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM \"public.weather_forecast\"");
 
         if (result is null)
-            return Result<IEnumerable<WeatherForecastQueryModel>>.Failure(ResultError.NotFound("404", "Cannot get the entities"));
-        else
-            return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
+        {
+            return Result<IEnumerable<WeatherForecastQueryModel>>.Failure(ResultError.NotFound("404",
+                "Cannot get the entities"));
+        }
+
+        return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
     }
 
     public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf()
     {
-        var WeatherForecasts = await _unitOfWork.WeatherForecastRepository.GetAll();
-        var result = WeatherForecasts.Value.Select(x => x.MapToQueryModel());
+        Result<IEnumerable<WeatherForecast>> WeatherForecasts = await _unitOfWork.WeatherForecastRepository.GetAll();
+        IEnumerable<WeatherForecastQueryModel> result = WeatherForecasts.Value.Select(x => x.MapToQueryModel());
 
         return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
     }
 
     public async Task<Result<WeatherForecastQueryModel>> GetById(int id)
     {
-        var result = (await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM WeatherForecast WHERE id = {id}")).FirstOrDefault();
+        WeatherForecastQueryModel? result =
+            (await _unitOfWork.SqlQuery<WeatherForecastQueryModel>(
+                $"SELECT * FROM \"public.weather_forecast\" WHERE \"Id\" = {id}")).FirstOrDefault();
 
         if (result is null)
+        {
             return Result<WeatherForecastQueryModel>.Failure(ResultError.NotFound("404", "Cannot get the entities"));
-        else
-            return Result<WeatherForecastQueryModel>.Success(result);
+        }
+
+        return Result<WeatherForecastQueryModel>.Success(result);
     }
 
     public async Task<Result> Create(WeatherForecastCreateModel payload)
     {
-        var entity = new WeatherForecast()
+        WeatherForecast entity = new()
         {
             Date = payload.Date,
-            Temperature = new Temperature()
+            Temperature = new Temperature
             {
-                Celsius = payload.Temperature.Celsius,
-                Fahrenheit = payload.Temperature.Fahrenheit
+                Celsius = payload.Temperature.Celsius, Fahrenheit = payload.Temperature.Fahrenheit
             },
             Summary = payload.Summary
         };
@@ -78,21 +86,21 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
     public async Task<Result> Update(WeatherForecastUpdateModel payload)
     {
-        var id = payload.Id;
-        var entityCurrent = await _unitOfWork.WeatherForecastRepository.GetById(id);
+        int id = payload.Id;
+        Result<WeatherForecast> entityCurrent = await _unitOfWork.WeatherForecastRepository.GetById(id);
 
         if (!entityCurrent.IsSuccess)
         {
-            return Result.Failure(ResultError.NotFound("404", $"{nameof(WeatherForecast)} id with {id} cannot be found"));
+            return Result.Failure(
+                ResultError.NotFound("404", $"{nameof(WeatherForecast)} id with {id} cannot be found"));
         }
 
-        var entityUpdated = entityCurrent.Value;
+        WeatherForecast entityUpdated = entityCurrent.Value;
         entityUpdated.Id = id;
-        entityUpdated.Date = System.DateTime.Now;
-        entityUpdated.Temperature = new Temperature()
+        entityUpdated.Date = DateTime.Now;
+        entityUpdated.Temperature = new Temperature
         {
-            Celsius = payload.Temperature.Celsius,
-            Fahrenheit = payload.Temperature.Fahrenheit
+            Celsius = payload.Temperature.Celsius, Fahrenheit = payload.Temperature.Fahrenheit
         };
         entityUpdated.Summary = payload.Summary;
 
@@ -104,11 +112,12 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
     public async Task<Result> Delete(int id)
     {
-        var entity = (await _unitOfWork.WeatherForecastRepository.GetById(id));
+        Result<WeatherForecast> entity = await _unitOfWork.WeatherForecastRepository.GetById(id);
 
         if (!entity.IsSuccess)
         {
-            return Result.Failure(ResultError.NotFound("404", $"{nameof(WeatherForecast)} id with {id} cannot be found"));
+            return Result.Failure(
+                ResultError.NotFound("404", $"{nameof(WeatherForecast)} id with {id} cannot be found"));
         }
 
         await _unitOfWork.WeatherForecastRepository.Remove(entity.Value);

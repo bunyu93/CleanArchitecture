@@ -1,4 +1,6 @@
-﻿using CleanArchitectureTemplate.Persistence.Context;
+﻿using CleanArchitectureTemplate.Application;
+using CleanArchitectureTemplate.Domain.Common.Database;
+using CleanArchitectureTemplate.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,7 +13,7 @@ public static class HostExtensionDatabase
 {
     private static readonly Action<ILogger, Exception> LogMigrationFailed =
         LoggerMessage.Define(LogLevel.Critical, new EventId(1, "MigrationFailed"), "Migration or seed failed!");
-    public static IHost MigrateDbAndSeedData(this IHost host)
+    public static IHost MigrateDb(this IHost host)
     {
         using var scope = host.Services.CreateScope();
         using var dbContext = scope
@@ -24,8 +26,6 @@ public static class HostExtensionDatabase
         try
         {
             dbContext.Database.Migrate();
-
-            DataSeeder.Seed(dbContext);
         }
         catch (System.Exception e)
         {

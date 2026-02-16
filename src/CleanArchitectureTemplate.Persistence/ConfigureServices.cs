@@ -16,7 +16,7 @@ public static class ConfigureServices
         services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Database));
 
         services.AddDbContext<EfDbContext>(options =>
-            options.UseSqlite(configuration.GetValue<string>("Database:Connection")));
+            options.UseNpgsql(configuration.GetValue<string>("Database:Connection")));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();

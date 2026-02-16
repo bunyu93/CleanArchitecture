@@ -12,20 +12,24 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "weather");
+
             migrationBuilder.CreateTable(
-                name: "weather_forecasts",
+                name: "forecast",
+                schema: "weather",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
+                    id = table.Column<int>(type: "Integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Date = table.Column<DateTime>(type: "DATE", nullable: false),
-                    Fahrenheit = table.Column<int>(type: "INTEGER", nullable: false),
-                    Celsius = table.Column<int>(type: "INTEGER", nullable: false),
-                    Summary = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true)
+                    date = table.Column<DateTime>(type: "Date", nullable: false),
+                    fahrenheit = table.Column<int>(type: "Integer", nullable: false),
+                    celsius = table.Column<int>(type: "Integer", nullable: false),
+                    summary = table.Column<string>(type: "Text", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_WeatherForecast", x => x.Id);
+                    table.PrimaryKey("pk_forecast", x => x.id);
                 });
         }
 
@@ -33,7 +37,8 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "weather_forecasts");
+                name: "forecast",
+                schema: "weather");
         }
     }
 }

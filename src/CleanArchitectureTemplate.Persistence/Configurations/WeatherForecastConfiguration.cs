@@ -9,29 +9,35 @@ public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherFore
     public void Configure(EntityTypeBuilder<WeatherForecast> builder)
     {
         // TABLE
-        builder.ToTable("weather_forecasts");
+        builder.ToTable("forecast");
 
         // PRIMARY KEY
-        builder.HasKey(i => i.Id).HasName("PK_WeatherForecast");
+        builder.HasKey(i => i.Id).HasName("pk_forecast");
 
         // PROPERTIES
+        builder.Property(x => x.Id)
+            .HasColumnName("id")
+            .HasColumnType("Integer")
+            .IsRequired();
+
         builder.Property(i => i.Date)
-            .HasColumnName("Date")
-            .HasColumnType("DATE");
+            .HasColumnName("date")
+            .HasColumnType("Date");
 
         builder.OwnsOne(i => i.Temperature, j =>
         {
             j.Property(x => x.Celsius)
-                .HasColumnName("Celsius")
-                .HasColumnType("INTEGER");
+                .HasColumnName("celsius")
+                .HasColumnType("Integer");
 
             j.Property(x => x.Fahrenheit)
-                .HasColumnName("Fahrenheit")
-                .HasColumnType("INTEGER");
+                .HasColumnName("fahrenheit")
+                .HasColumnType("Integer");
         });
 
         builder.Property(i => i.Summary)
-            .HasColumnName("Summary")
+            .HasColumnName("summary")
+            .HasColumnType("Text")
             .HasMaxLength(200);
     }
 }

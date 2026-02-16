@@ -9,12 +9,16 @@ namespace CleanArchitectureTemplate.Persistence.Context;
 public class EfDbContext(
     DbContextOptions options,
     IOptions<DatabaseOptions> databaseOptions
-        ) : DbContext(options)
+) : DbContext(options)
 {
     private readonly IOptions<DatabaseOptions> _databaseOptions = databaseOptions;
 
+    public virtual DbSet<WeatherForecast> WeatherForecast => Set<WeatherForecast>();
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    => optionsBuilder.UseNpgsql(_databaseOptions.Value.Connection);
+    {
+        optionsBuilder.UseNpgsql(_databaseOptions.Value.Connection);
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,12 +26,10 @@ public class EfDbContext(
         //Property Configurations
 
         // Other databases support the default schema
-        // modelBuilder.HasDefaultSchema("Weather");
+        modelBuilder.HasDefaultSchema("weather");
 
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfiguration(new WeatherForecastConfiguration());
     }
-
-    public virtual DbSet<WeatherForecast> WeatherForecast => Set<WeatherForecast>();
 }

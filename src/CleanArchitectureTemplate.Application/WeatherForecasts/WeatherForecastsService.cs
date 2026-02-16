@@ -33,7 +33,7 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
     public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll()
     {
         IQueryable<WeatherForecastQueryModel>? result =
-            await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM \"public.weather_forecast\"");
+            await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM weather.forecast");
 
         if (result is null)
         {
@@ -56,7 +56,7 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
     {
         WeatherForecastQueryModel? result =
             (await _unitOfWork.SqlQuery<WeatherForecastQueryModel>(
-                $"SELECT * FROM \"public.weather_forecast\" WHERE \"Id\" = {id}")).FirstOrDefault();
+                $"SELECT * FROM weather.forecast WHERE id = {id}")).FirstOrDefault();
 
         if (result is null)
         {

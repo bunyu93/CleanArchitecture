@@ -17,6 +17,7 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .HasDefaultSchema("weather")
                 .HasAnnotation("ProductVersion", "10.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
@@ -26,23 +27,24 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("Integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("DATE")
-                        .HasColumnName("Date");
+                        .HasColumnType("Date")
+                        .HasColumnName("date");
 
                     b.Property<string>("Summary")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
-                        .HasColumnName("Summary");
+                        .HasColumnType("Text")
+                        .HasColumnName("summary");
 
                     b.HasKey("Id")
-                        .HasName("PK_WeatherForecast");
+                        .HasName("pk_forecast");
 
-                    b.ToTable("weather_forecasts", (string)null);
+                    b.ToTable("forecast", "weather");
                 });
 
             modelBuilder.Entity("CleanArchitectureTemplate.Domain.Entities.WeatherForecast", b =>
@@ -50,19 +52,19 @@ namespace CleanArchitectureTemplate.Persistence.Migrations
                     b.OwnsOne("CleanArchitectureTemplate.Domain.ValueObjects.Temperature", "Temperature", b1 =>
                         {
                             b1.Property<int>("WeatherForecastId")
-                                .HasColumnType("integer");
+                                .HasColumnType("Integer");
 
                             b1.Property<int>("Celsius")
-                                .HasColumnType("INTEGER")
-                                .HasColumnName("Celsius");
+                                .HasColumnType("Integer")
+                                .HasColumnName("celsius");
 
                             b1.Property<int>("Fahrenheit")
-                                .HasColumnType("INTEGER")
-                                .HasColumnName("Fahrenheit");
+                                .HasColumnType("Integer")
+                                .HasColumnName("fahrenheit");
 
                             b1.HasKey("WeatherForecastId");
 
-                            b1.ToTable("weather_forecasts");
+                            b1.ToTable("forecast", "weather");
 
                             b1.WithOwner()
                                 .HasForeignKey("WeatherForecastId");

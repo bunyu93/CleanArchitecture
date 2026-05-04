@@ -19,8 +19,7 @@ public sealed class DockerPostgresTestFixture : IAsyncLifetime
             new EventId(2, nameof(LogDockerPostgresTestFixtureDispose)),
             "PostgreSQL test container stopped and removed");
 
-    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder()
-        .WithImage("postgres:17-alpine")
+    private readonly PostgreSqlContainer _container = new PostgreSqlBuilder("postgres:17-alpine")
         .WithDatabase("weatherdb_test")
         .WithUsername("postgres")
         .WithPassword("postgres")

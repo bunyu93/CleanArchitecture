@@ -7,6 +7,10 @@ using CleanArchitectureTemplate.Persistence;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.Limits.MaxRequestBodySize = 1_048_576;
+});
 
 // Add services to the container.
 builder.Services.AddApplicationServices();
@@ -17,15 +21,21 @@ builder.Services.AddApiServices();
 var app = builder.Build();
 
 // Tasks that needs to be done when WebApplication is build
-app.MigrateDb();
-app.SeedData();
+if (app.Configuration.GetValue<bool>("Database:RunMigrationsOnStartup"))
+{
+    app.MigrateDb();
+}
+
+if (app.Configuration.GetValue<bool>("Database:RunSeedOnStartup"))
+{
+    app.SeedData();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
-    app.UseDeveloperExceptionPage();
 }
 else
 {
@@ -35,8 +45,11 @@ else
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 
-app.UseHealthChecks("/health");
 app.UseHttpsRedirection();
+app.UseMiddleware<SecurityHeadersMiddleware>();
+app.UseRateLimiter();
+
+app.UseHealthChecks("/health");
 
 app.UseAuthentication();
 app.UseAuthorization();

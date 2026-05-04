@@ -33,14 +33,14 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
             return Result<TEntity>.Success(result);
     }
 
-    public async Task<Result<IEnumerable<TEntity>>> Find(Func<TEntity, bool> predicate)
+    public Task<Result<IEnumerable<TEntity>>> Find(Func<TEntity, bool> predicate)
     {
-        var result = await Task.Run(() => _context.Set<TEntity>().Where(predicate));
+        var result = _context.Set<TEntity>().AsEnumerable().Where(predicate);
 
         if (result is null)
-            return Result<IEnumerable<TEntity>>.Failure(ResultError.Failure("500", "Cannot get the entities"));
+            return Task.FromResult(Result<IEnumerable<TEntity>>.Failure(ResultError.Failure("500", "Cannot get the entities")));
         else
-            return Result<IEnumerable<TEntity>>.Success(result);
+            return Task.FromResult(Result<IEnumerable<TEntity>>.Success(result));
     }
 
     public async Task<Result<IEnumerable<TEntity>>> GetAll()
@@ -63,19 +63,22 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
         await _context.Set<TEntity>().AddRangeAsync(entities);
     }
 
-    public async Task Update(TEntity entity, TEntity newValues)
+    public Task Update(TEntity entity, TEntity newValues)
     {
-        await Task.Run(() => _context.Entry(entity).CurrentValues.SetValues(newValues));
+        _context.Entry(entity).CurrentValues.SetValues(newValues);
+        return Task.CompletedTask;
     }
 
-    public async Task Remove(TEntity entity)
+    public Task Remove(TEntity entity)
     {
-        await Task.Run(() => _context.Set<TEntity>().Remove(entity));
+        _context.Set<TEntity>().Remove(entity);
+        return Task.CompletedTask;
     }
 
-    public async Task RemoveRange(IEnumerable<TEntity> entities)
+    public Task RemoveRange(IEnumerable<TEntity> entities)
     {
-        await Task.Run(() => _context.Set<TEntity>().RemoveRange(entities));
+        _context.Set<TEntity>().RemoveRange(entities);
+        return Task.CompletedTask;
     }
 
     public async Task SaveChanges()

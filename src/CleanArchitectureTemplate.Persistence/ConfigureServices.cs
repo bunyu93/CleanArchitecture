@@ -6,6 +6,7 @@ using CleanArchitectureTemplate.Persistence.Settings.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace CleanArchitectureTemplate.Persistence;
 
@@ -15,8 +16,14 @@ public static class ConfigureServices
     {
         services.Configure<DatabaseOptions>(configuration.GetSection(DatabaseOptions.Database));
 
+        string? connectionString = configuration.GetValue<string>("Database:Connection");
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            throw new InvalidOperationException("Database:Connection configuration is required.");
+        }
+
         services.AddDbContext<EfDbContext>(options =>
-            options.UseNpgsql(configuration.GetValue<string>("Database:Connection")));
+            options.UseNpgsql(connectionString));
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<IWeatherForecastRepository, WeatherForecastRepository>();

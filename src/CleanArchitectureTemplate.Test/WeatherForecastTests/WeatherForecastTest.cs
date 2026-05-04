@@ -5,10 +5,8 @@ using CleanArchitectureTemplate.Domain.Results;
 using CleanArchitectureTemplate.Domain.ValueObjects;
 using CleanArchitectureTemplate.Persistence.Context;
 using CleanArchitectureTemplate.Persistence.Repository;
-using CleanArchitectureTemplate.Persistence.Settings.Options;
 using CleanArchitectureTemplate.Test.Fixtures;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace CleanArchitectureTemplate.Test.WeatherForecastTests;
 
@@ -17,10 +15,10 @@ public class WeatherForecastTest(DockerPostgresTestFixture fixture)
 {
     private EfDbContext CreateDbContext()
     {
-        DbContextOptions<EfDbContext> options = new DbContextOptionsBuilder<EfDbContext>().Options;
-        IOptions<DatabaseOptions> dbOptions =
-            Options.Create(new DatabaseOptions { Connection = fixture.ConnectionString });
-        return new EfDbContext(options, dbOptions);
+        DbContextOptions<EfDbContext> options = new DbContextOptionsBuilder<EfDbContext>()
+            .UseNpgsql(fixture.ConnectionString)
+            .Options;
+        return new EfDbContext(options);
     }
 
     private static (WeatherForecastsService Service, UnitOfWork UnitOfWork) CreateServiceStack(EfDbContext context)

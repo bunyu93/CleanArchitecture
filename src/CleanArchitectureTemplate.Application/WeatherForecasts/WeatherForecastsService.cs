@@ -97,7 +97,7 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
         WeatherForecast entityUpdated = entityCurrent.Value;
         entityUpdated.Id = id;
-        entityUpdated.Date = DateTime.Now;
+        entityUpdated.Date = DateTime.UtcNow;
         entityUpdated.Temperature = new Temperature
         {
             Celsius = payload.Temperature.Celsius, Fahrenheit = payload.Temperature.Fahrenheit

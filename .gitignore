@@ -6,6 +6,11 @@ src.sln
 src/.idea
 src/.claude
 
+# Local secrets
+.env
+src/.env
+*.user
+
 # macOS
 .DS_Store
 .AppleDouble

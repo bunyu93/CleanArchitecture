@@ -9,8 +9,6 @@ public interface IUnitOfWork
 {
     IWeatherForecastRepository WeatherForecastRepository { get; }
 
-    Task<IQueryable<T>> SqlQueryRaw<T>(string sql, params object[] parameters);
-
     Task<IQueryable<T>> SqlQuery<T>(FormattableString sql);
 
     void Save();

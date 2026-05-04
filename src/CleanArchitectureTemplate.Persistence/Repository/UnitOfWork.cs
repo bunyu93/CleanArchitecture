@@ -30,14 +30,9 @@ public class UnitOfWork(EfDbContext context, IWeatherForecastRepository weatherF
         _context.Database.RollbackTransaction();
     }
 
-    public async Task<IQueryable<T>> SqlQueryRaw<T>(string sql, params object[] parameters)
+    public Task<IQueryable<T>> SqlQuery<T>(FormattableString sql)
     {
-        return await Task.Run(() => _context.Database.SqlQueryRaw<T>(sql, parameters));
-    }
-
-    public async Task<IQueryable<T>> SqlQuery<T>(FormattableString sql)
-    {
-        return await Task.Run(() => _context.Database.SqlQuery<T>(sql));
+        return Task.FromResult(_context.Database.SqlQuery<T>(sql));
     }
 
     public async Task SaveAsync()

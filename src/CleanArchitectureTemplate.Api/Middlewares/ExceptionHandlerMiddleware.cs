@@ -1,12 +1,19 @@
 ﻿using CleanArchitectureTemplate.Domain.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Text.Json;
 
 namespace CleanArchitectureTemplate.Api.Middlewares;
 
-public class ExceptionHandlerMiddleware(RequestDelegate next)
+public class ExceptionHandlerMiddleware(RequestDelegate next, ILogger<ExceptionHandlerMiddleware> logger)
 {
+    private static readonly JsonSerializerOptions ProblemDetailsJsonOptions = new(JsonSerializerDefaults.Web);
+
+    private static readonly Action<ILogger, Exception> LogUnhandled =
+        LoggerMessage.Define(LogLevel.Error, new EventId(1, "UnhandledException"), "Unhandled exception while processing request");
+
     private readonly RequestDelegate _next = next;
+    private readonly ILogger<ExceptionHandlerMiddleware> _logger = logger;
 
     public async Task Invoke(HttpContext context)
     {
@@ -16,20 +23,40 @@ public class ExceptionHandlerMiddleware(RequestDelegate next)
         }
         catch (Exception error)
         {
-            var response = context.Response;
-            response.ContentType = "application/json";
-            var responseModel = new { error.Message };
+            LogUnhandled(_logger, error);
 
-            response.StatusCode = error switch
+            if (context.Response.HasStarted)
+            {
+                throw;
+            }
+
+            var statusCode = error switch
             {
                 NotFoundException => (int)HttpStatusCode.NotFound,
                 ValidationException => (int)HttpStatusCode.BadRequest,
-                _ => (int)HttpStatusCode.InternalServerError,// unhandled error
+                _ => (int)HttpStatusCode.InternalServerError,
             };
 
-            var result = JsonSerializer.Serialize(responseModel);
-            await response.WriteAsync(result);
-            throw;
+            context.Response.Clear();
+            context.Response.StatusCode = statusCode;
+            context.Response.ContentType = "application/problem+json";
+
+            var problem = new ProblemDetails
+            {
+                Status = statusCode,
+                Title = ReasonPhrases(statusCode),
+                Detail = statusCode == (int)HttpStatusCode.InternalServerError ? null : error.Message,
+                Instance = context.Request.Path,
+            };
+
+            await context.Response.WriteAsync(JsonSerializer.Serialize(problem, ProblemDetailsJsonOptions));
         }
     }
+
+    private static string ReasonPhrases(int statusCode) => statusCode switch
+    {
+        400 => "Bad Request",
+        404 => "Not Found",
+        _ => "Internal Server Error",
+    };
 }

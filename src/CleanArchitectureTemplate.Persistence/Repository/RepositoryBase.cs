@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Persistence.Repository;
@@ -13,9 +14,9 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
 {
     private readonly EfDbContext _context = context;
 
-    public async Task<Result<TEntity>> GetById(int id)
+    public async Task<Result<TEntity>> GetById(int id, CancellationToken cancellationToken = default)
     {
-        var result = await _context.Set<TEntity>().FindAsync(id);
+        var result = await _context.Set<TEntity>().FindAsync(new object?[] { id }, cancellationToken);
 
         if (result is null)
             return Result<TEntity>.Failure(ResultError.NotFound("404", $"Entity with id {id} not found"));
@@ -23,9 +24,9 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
             return Result<TEntity>.Success(result);
     }
 
-    public async Task<Result<TEntity>> GetById(Guid id)
+    public async Task<Result<TEntity>> GetById(Guid id, CancellationToken cancellationToken = default)
     {
-        var result = await _context.Set<TEntity>().FindAsync(id);
+        var result = await _context.Set<TEntity>().FindAsync(new object?[] { id }, cancellationToken);
 
         if (result is null)
             return Result<TEntity>.Failure(ResultError.NotFound("404", $"Entity with id {id} not found"));
@@ -33,8 +34,9 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
             return Result<TEntity>.Success(result);
     }
 
-    public Task<Result<IEnumerable<TEntity>>> Find(Func<TEntity, bool> predicate)
+    public Task<Result<IEnumerable<TEntity>>> Find(Func<TEntity, bool> predicate, CancellationToken cancellationToken = default)
     {
+        cancellationToken.ThrowIfCancellationRequested();
         var result = _context.Set<TEntity>().AsEnumerable().Where(predicate);
 
         if (result is null)
@@ -43,9 +45,9 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
             return Task.FromResult(Result<IEnumerable<TEntity>>.Success(result));
     }
 
-    public async Task<Result<IEnumerable<TEntity>>> GetAll()
+    public async Task<Result<IEnumerable<TEntity>>> GetAll(CancellationToken cancellationToken = default)
     {
-        var result = await _context.Set<TEntity>().ToListAsync();
+        var result = await _context.Set<TEntity>().ToListAsync(cancellationToken);
 
         if (result is null)
             return Result<IEnumerable<TEntity>>.Failure(ResultError.Failure("500", "Cannot get the entities"));
@@ -53,14 +55,14 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
             return Result<IEnumerable<TEntity>>.Success(result);
     }
 
-    public async Task Add(TEntity entity)
+    public async Task Add(TEntity entity, CancellationToken cancellationToken = default)
     {
-        await _context.Set<TEntity>().AddAsync(entity);
+        await _context.Set<TEntity>().AddAsync(entity, cancellationToken);
     }
 
-    public async Task AddRange(IEnumerable<TEntity> entities)
+    public async Task AddRange(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
     {
-        await _context.Set<TEntity>().AddRangeAsync(entities);
+        await _context.Set<TEntity>().AddRangeAsync(entities, cancellationToken);
     }
 
     public Task Update(TEntity entity, TEntity newValues)
@@ -81,8 +83,8 @@ public class RepositoryBase<TEntity>(EfDbContext context) : IRepository<TEntity>
         return Task.CompletedTask;
     }
 
-    public async Task SaveChanges()
+    public async Task SaveChanges(CancellationToken cancellationToken = default)
     {
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }

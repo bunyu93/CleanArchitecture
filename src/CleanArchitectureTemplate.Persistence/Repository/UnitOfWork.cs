@@ -4,6 +4,7 @@ using CleanArchitectureTemplate.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Persistence.Repository;
@@ -35,19 +36,19 @@ public class UnitOfWork(EfDbContext context, IWeatherForecastRepository weatherF
         return Task.FromResult(_context.Database.SqlQuery<T>(sql));
     }
 
-    public async Task SaveAsync()
+    public async Task SaveAsync(CancellationToken cancellationToken = default)
     {
-        await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task CommitAsync()
+    public async Task CommitAsync(CancellationToken cancellationToken = default)
     {
-        await _context.Database.CommitTransactionAsync();
+        await _context.Database.CommitTransactionAsync(cancellationToken);
     }
 
-    public async Task RollbackAsync()
+    public async Task RollbackAsync(CancellationToken cancellationToken = default)
     {
-        await _context.Database.RollbackTransactionAsync();
+        await _context.Database.RollbackTransactionAsync(cancellationToken);
     }
 
     protected virtual void Dispose(bool disposing)

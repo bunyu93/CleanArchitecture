@@ -21,7 +21,6 @@ public static class WeatherForecastsMapping
     {
         return new WeatherForecast()
         {
-            Id = payload.Id,
             Temperature = payload.Temperature,
             Summary = payload.Summary,
             Date = payload.Date,

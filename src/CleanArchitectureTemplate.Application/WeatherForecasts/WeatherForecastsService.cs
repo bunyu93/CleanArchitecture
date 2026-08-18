@@ -7,30 +7,31 @@ using CleanArchitectureTemplate.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CleanArchitectureTemplate.Application.WeatherForecasts;
 
 public interface IWeatherForecastsService
 {
-    Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll();
+    Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll(CancellationToken cancellationToken = default);
 
-    Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf();
+    Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf(CancellationToken cancellationToken = default);
 
-    Task<Result<WeatherForecastQueryModel>> GetById(int id);
+    Task<Result<WeatherForecastQueryModel>> GetById(int id, CancellationToken cancellationToken = default);
 
-    Task<Result> Create(WeatherForecastCreateModel payload);
+    Task<Result> Create(WeatherForecastCreateModel payload, CancellationToken cancellationToken = default);
 
-    Task<Result> Update(WeatherForecastUpdateModel payload);
+    Task<Result> Update(WeatherForecastUpdateModel payload, CancellationToken cancellationToken = default);
 
-    Task<Result> Delete(int id);
+    Task<Result> Delete(int id, CancellationToken cancellationToken = default);
 }
 
 public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecastsService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll()
+    public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAll(CancellationToken cancellationToken = default)
     {
         IQueryable<WeatherForecastQueryModel>? result =
             await _unitOfWork.SqlQuery<WeatherForecastQueryModel>($"SELECT * FROM weather.forecast");
@@ -44,15 +45,15 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
         return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
     }
 
-    public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf()
+    public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf(CancellationToken cancellationToken = default)
     {
-        Result<IEnumerable<WeatherForecast>> WeatherForecasts = await _unitOfWork.WeatherForecastRepository.GetAll();
+        Result<IEnumerable<WeatherForecast>> WeatherForecasts = await _unitOfWork.WeatherForecastRepository.GetAll(cancellationToken);
         IEnumerable<WeatherForecastQueryModel> result = WeatherForecasts.Value.Select(x => x.MapToQueryModel());
 
         return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
     }
 
-    public async Task<Result<WeatherForecastQueryModel>> GetById(int id)
+    public async Task<Result<WeatherForecastQueryModel>> GetById(int id, CancellationToken cancellationToken = default)
     {
         WeatherForecastQueryModel? result =
             (await _unitOfWork.SqlQuery<WeatherForecastQueryModel>(
@@ -66,7 +67,7 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
         return Result<WeatherForecastQueryModel>.Success(result);
     }
 
-    public async Task<Result> Create(WeatherForecastCreateModel payload)
+    public async Task<Result> Create(WeatherForecastCreateModel payload, CancellationToken cancellationToken = default)
     {
         WeatherForecast entity = new()
         {
@@ -78,16 +79,16 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
             Summary = payload.Summary
         };
 
-        await _unitOfWork.WeatherForecastRepository.Add(entity);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.WeatherForecastRepository.Add(entity, cancellationToken);
+        await _unitOfWork.SaveAsync(cancellationToken);
 
         return Result.Success();
     }
 
-    public async Task<Result> Update(WeatherForecastUpdateModel payload)
+    public async Task<Result> Update(WeatherForecastUpdateModel payload, CancellationToken cancellationToken = default)
     {
         int id = payload.Id;
-        Result<WeatherForecast> entityCurrent = await _unitOfWork.WeatherForecastRepository.GetById(id);
+        Result<WeatherForecast> entityCurrent = await _unitOfWork.WeatherForecastRepository.GetById(id, cancellationToken);
 
         if (!entityCurrent.IsSuccess)
         {
@@ -105,14 +106,14 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
         entityUpdated.Summary = payload.Summary;
 
         await _unitOfWork.WeatherForecastRepository.Update(entityCurrent.Value, entityUpdated);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync(cancellationToken);
 
         return Result.Success();
     }
 
-    public async Task<Result> Delete(int id)
+    public async Task<Result> Delete(int id, CancellationToken cancellationToken = default)
     {
-        Result<WeatherForecast> entity = await _unitOfWork.WeatherForecastRepository.GetById(id);
+        Result<WeatherForecast> entity = await _unitOfWork.WeatherForecastRepository.GetById(id, cancellationToken);
 
         if (!entity.IsSuccess)
         {
@@ -121,7 +122,7 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
         }
 
         await _unitOfWork.WeatherForecastRepository.Remove(entity.Value);
-        await _unitOfWork.SaveAsync();
+        await _unitOfWork.SaveAsync(cancellationToken);
 
         return Result.Success();
     }

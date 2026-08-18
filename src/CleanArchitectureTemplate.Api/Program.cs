@@ -44,9 +44,9 @@ else
 }
 
 app.UseMiddleware<ExceptionHandlerMiddleware>();
+app.UseMiddleware<SecurityHeadersMiddleware>();
 
 app.UseHttpsRedirection();
-app.UseMiddleware<SecurityHeadersMiddleware>();
 app.UseRateLimiter();
 
 app.UseHealthChecks("/health");

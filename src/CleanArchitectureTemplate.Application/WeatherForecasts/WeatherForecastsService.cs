@@ -38,11 +38,11 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
         if (result is null)
         {
-            return Result<IEnumerable<WeatherForecastQueryModel>>.Failure(ResultError.NotFound("404",
+            return Result.Failure<IEnumerable<WeatherForecastQueryModel>>(ResultError.NotFound("404",
                 "Cannot get the entities"));
         }
 
-        return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
+        return Result.Success<IEnumerable<WeatherForecastQueryModel>>(result);
     }
 
     public async Task<Result<IEnumerable<WeatherForecastQueryModel>>> GetAllEf(CancellationToken cancellationToken = default)
@@ -50,7 +50,7 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
         Result<IEnumerable<WeatherForecast>> WeatherForecasts = await _unitOfWork.WeatherForecastRepository.GetAll(cancellationToken);
         IEnumerable<WeatherForecastQueryModel> result = WeatherForecasts.Value.Select(x => x.MapToQueryModel());
 
-        return Result<IEnumerable<WeatherForecastQueryModel>>.Success(result);
+        return Result.Success<IEnumerable<WeatherForecastQueryModel>>(result);
     }
 
     public async Task<Result<WeatherForecastQueryModel>> GetById(int id, CancellationToken cancellationToken = default)
@@ -61,10 +61,10 @@ public class WeatherForecastsService(IUnitOfWork unitOfWork) : IWeatherForecasts
 
         if (result is null)
         {
-            return Result<WeatherForecastQueryModel>.Failure(ResultError.NotFound("404", "Cannot get the entities"));
+            return Result.Failure<WeatherForecastQueryModel>(ResultError.NotFound("404", "Cannot get the entities"));
         }
 
-        return Result<WeatherForecastQueryModel>.Success(result);
+        return Result.Success<WeatherForecastQueryModel>(result);
     }
 
     public async Task<Result> Create(WeatherForecastCreateModel payload, CancellationToken cancellationToken = default)

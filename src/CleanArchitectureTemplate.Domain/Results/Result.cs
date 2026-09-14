@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text.Json.Serialization;
 
 namespace CleanArchitectureTemplate.Domain.Results;
 
@@ -19,7 +18,6 @@ public class Result
 
     public bool IsSuccess { get; }
 
-    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ResultError? Error { get; }
 
     public static Result Success() => new();

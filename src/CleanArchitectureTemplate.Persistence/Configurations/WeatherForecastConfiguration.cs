@@ -8,13 +8,10 @@ public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherFore
 {
     public void Configure(EntityTypeBuilder<WeatherForecast> builder)
     {
-        // TABLE
         builder.ToTable("forecast");
 
-        // PRIMARY KEY
         builder.HasKey(i => i.Id).HasName("pk_forecast");
 
-        // PROPERTIES
         builder.Property(x => x.Id)
             .HasColumnName("id")
             .HasColumnType("Integer")

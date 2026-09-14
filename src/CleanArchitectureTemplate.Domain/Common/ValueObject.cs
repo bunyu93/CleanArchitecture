@@ -3,9 +3,6 @@ using System.Linq;
 
 namespace CleanArchitectureTemplate.Domain.Common;
 
-// Learn more: https://docs.microsoft.com/en-us/dotnet/standard/microservices-architecture/microservice-ddd-cqrs-patterns/implement-value-objects
-// Learn more: https://docs.microsoft.com/en-us/dotnet/architecture/microservices/microservice-ddd-cqrs-patterns/implement-value-objects
-
 public abstract class ValueObject
 {
     protected abstract IEnumerable<object> GetEqualityComponents();

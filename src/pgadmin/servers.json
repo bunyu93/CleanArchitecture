@@ -1,7 +1,7 @@
 {
   "Servers": {
     "1": {
-      "Name": "CleanArchitecture Postgres",
+      "Name": "CleanArchitectureTemplate Postgres",
       "Group": "Servers",
       "Host": "postgres",
       "Port": 5432,

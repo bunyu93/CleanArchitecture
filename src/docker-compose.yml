@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: cleanarchitecture-postgres
+    container_name: CleanArchitectureTemplate-postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:?POSTGRES_USER is required}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?POSTGRES_PASSWORD is required}
@@ -19,7 +19,7 @@ services:
 
   pgadmin:
     image: ${PGADMIN_IMAGE:-dpage/pgadmin4:latest}
-    container_name: cleanarchitecture-pgadmin
+    container_name: CleanArchitectureTemplate-pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:?PGADMIN_DEFAULT_EMAIL is required}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:?PGADMIN_DEFAULT_PASSWORD is required}

@@ -22,7 +22,7 @@ public static class WeatherData
         var existingData = await weatherForecastRepository.GetAll();
         if (existingData.Value.Any())
         {
-            return; // DB has been seeded
+            return;
         }
 
         List<WeatherForecast> list = new()

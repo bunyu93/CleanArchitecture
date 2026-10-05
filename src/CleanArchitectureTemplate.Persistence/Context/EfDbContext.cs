@@ -10,10 +10,6 @@ public class EfDbContext(DbContextOptions<EfDbContext> options) : DbContext(opti
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        //Write Fluent API configurations here
-        //Property Configurations
-
-        // Other databases support the default schema
         modelBuilder.HasDefaultSchema("weather");
 
         base.OnModelCreating(modelBuilder);

@@ -12,7 +12,6 @@ builder.WebHost.ConfigureKestrel(options =>
     options.Limits.MaxRequestBodySize = 1_048_576;
 });
 
-// Add services to the container.
 builder.Services.AddApplicationServices();
 builder.Services.AddPersistenceServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
@@ -20,7 +19,6 @@ builder.Services.AddApiServices();
 
 var app = builder.Build();
 
-// Tasks that needs to be done when WebApplication is build
 if (app.Configuration.GetValue<bool>("Database:RunMigrationsOnStartup"))
 {
     app.MigrateDb();
@@ -31,7 +29,6 @@ if (app.Configuration.GetValue<bool>("Database:RunSeedOnStartup"))
     app.SeedData();
 }
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
@@ -39,7 +36,6 @@ if (app.Environment.IsDevelopment())
 }
 else
 {
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

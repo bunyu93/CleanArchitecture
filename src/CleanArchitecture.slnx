@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="docker-compose.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/PgAdmin/">
+    <File Path="pgadmin\servers.json" />
+  </Folder>
+  <Project Path="CleanArchitectureTemplate.Api/CleanArchitectureTemplate.Api.csproj" />
+  <Project Path="CleanArchitectureTemplate.Application/CleanArchitectureTemplate.Application.csproj" />
+  <Project Path="CleanArchitectureTemplate.Domain/CleanArchitectureTemplate.Domain.csproj" />
+  <Project Path="CleanArchitectureTemplate.Infrastructure/CleanArchitectureTemplate.Infrastructure.csproj" />
+  <Project Path="CleanArchitectureTemplate.Persistence/CleanArchitectureTemplate.Persistence.csproj" />
+  <Project Path="CleanArchitectureTemplate.Test/CleanArchitectureTemplate.Test.csproj" />
+</Solution>

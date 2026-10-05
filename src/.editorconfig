@@ -1,7 +1,5 @@
-# Remove the line below if you want to inherit .editorconfig settings from higher directories
 root = true
 
-# C# files
 [*.cs]
 
 #### Core EditorConfig Options ####
@@ -20,7 +18,6 @@ insert_final_newline = false
 # Organize usings
 dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = false
-file_header_template = unset
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false
@@ -70,10 +67,6 @@ dotnet_code_quality_unused_parameters = all:silent
 # Suppression preferences
 dotnet_remove_unnecessary_suppression_exclusions = none
 
-# New line preferences
-dotnet_style_allow_multiple_blank_lines_experimental = true
-dotnet_style_allow_statement_immediately_after_block_experimental = true
-
 #### C# Coding Conventions ####
 
 # var preferences
@@ -114,7 +107,6 @@ csharp_prefer_simple_using_statement = true
 csharp_style_namespace_declarations = file_scoped
 csharp_style_prefer_method_group_conversion = true
 csharp_style_prefer_primary_constructors = true
-csharp_style_prefer_top_level_statements = true
 
 # Expression-level preferences
 csharp_prefer_simple_default_expression = true
@@ -133,13 +125,6 @@ csharp_style_unused_value_expression_statement_preference = discard_variable
 
 # 'using' directive preferences
 csharp_using_directive_placement = outside_namespace
-
-# New line preferences
-csharp_style_allow_blank_line_after_colon_in_constructor_initializer_experimental = true
-csharp_style_allow_blank_line_after_token_in_arrow_expression_clause_experimental = true
-csharp_style_allow_blank_line_after_token_in_conditional_expression_experimental = true
-csharp_style_allow_blank_lines_between_consecutive_braces_experimental = true
-csharp_style_allow_embedded_statements_on_same_line_experimental = true
 
 #### C# Formatting Rules ####
 
@@ -191,7 +176,6 @@ csharp_preserve_single_line_statements = true
 #### Naming styles ####
 
 # Naming rules
-
 dotnet_naming_rule.interface_should_be_begins_with_i.severity = suggestion
 dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
 dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
@@ -204,8 +188,11 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = suggestion
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-# Symbol specifications
+dotnet_naming_rule.generic_type_parameter_should_be_pascal_case_with_t_prefix.severity = suggestion
+dotnet_naming_rule.generic_type_parameter_should_be_pascal_case_with_t_prefix.symbols = generic_type_parameter
+dotnet_naming_rule.generic_type_parameter_should_be_pascal_case_with_t_prefix.style = pascal_case_with_t_prefix
 
+# Symbol specifications
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.interface.required_modifiers =
@@ -218,8 +205,11 @@ dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, meth
 dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
 dotnet_naming_symbols.non_field_members.required_modifiers =
 
-# Naming styles
+dotnet_naming_symbols.generic_type_parameter.applicable_kinds = type_parameter
+dotnet_naming_symbols.generic_type_parameter.applicable_accessibilities = *
+dotnet_naming_symbols.generic_type_parameter.required_modifiers =
 
+# Naming styles
 dotnet_naming_style.pascal_case.required_prefix =
 dotnet_naming_style.pascal_case.required_suffix =
 dotnet_naming_style.pascal_case.word_separator =
@@ -230,34 +220,21 @@ dotnet_naming_style.begins_with_i.required_suffix =
 dotnet_naming_style.begins_with_i.word_separator =
 dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
-# Generic type parameter naming rule - make it a suggestion instead of error
-dotnet_naming_rule.generic_type_parameter_should_be_pascal_case_with_t_prefix.severity = suggestion
-dotnet_naming_rule.generic_type_parameter_should_be_pascal_case_with_t_prefix.symbols = generic_type_parameter
-dotnet_naming_rule.generic_type_parameter_should_be_pascal_case_with_t_prefix.style = pascal_case_with_t_prefix
-
-# Symbol specification for generic type parameters
-dotnet_naming_symbols.generic_type_parameter.applicable_kinds = type_parameter
-dotnet_naming_symbols.generic_type_parameter.applicable_accessibilities = *
-dotnet_naming_symbols.generic_type_parameter.required_modifiers =
-
-# Naming style for generic type parameters
 dotnet_naming_style.pascal_case_with_t_prefix.required_prefix = T
 dotnet_naming_style.pascal_case_with_t_prefix.required_suffix =
 dotnet_naming_style.pascal_case_with_t_prefix.word_separator =
 dotnet_naming_style.pascal_case_with_t_prefix.capitalization = pascal_case
 
-# Disable specific analyzer rules
-dotnet_diagnostic.CA2225.severity = none # Operator overloads have named alternates
+#### Analyzer rule overrides ####
+
 dotnet_diagnostic.CA1515.severity = none # Consider making public types internal (for controllers)
-dotnet_diagnostic.CA1000.severity = none # Do not declare static members on generic types
 dotnet_diagnostic.CA1034.severity = none # Nested types should not be visible
-dotnet_diagnostic.CA1716.severity = none # Identifiers should not match keywords
 dotnet_diagnostic.CA1062.severity = none # Validate arguments of public methods
 dotnet_diagnostic.CA2007.severity = none # Consider calling ConfigureAwait on awaited task
 dotnet_diagnostic.CA1812.severity = none # Avoid uninstantiated internal classes
 dotnet_diagnostic.CA1852.severity = none # Type can be sealed
-dotnet_diagnostic.CA1715.severity = none # Identifiers should have correct prefix
+dotnet_diagnostic.CA1715.severity = none # Identifiers should have correct prefix (handled via naming rules above)
 
-# Test projects - allow underscores in identifiers (e.g. Method_Should_ReturnTrue)
+# Test projects - allow underscores in test method names (e.g. Method_Should_ReturnTrue)
 [*.Test/**/*.cs]
 dotnet_diagnostic.CA1707.severity = none

@@ -76,10 +76,10 @@ public class WeatherForecastController(IWeatherForecastsService weatherForecasts
        );
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Delete([FromBody] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> Delete([FromRoute] int id, CancellationToken cancellationToken)
     {
         var result = await _weatherForecastsService.Delete(id, cancellationToken);
 

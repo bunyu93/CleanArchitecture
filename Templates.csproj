@@ -59,7 +59,12 @@
                           src\**\.apdisk;
                           src\**\Network Trash Folder\**;
                           src\**\Temporary Items\**;
-                          src\**\Thumbs.db" />
+                          src\**\Thumbs.db;
+                          src\**\ehthumbs.db;
+                          src\**\ehthumbs_vista.db;
+                          src\**\desktop.ini;
+                          src\**\*.stackdump;
+                          src\**\$RECYCLE.BIN\**" />
         <Compile Remove="**\*" />
     </ItemGroup>
 </Project>

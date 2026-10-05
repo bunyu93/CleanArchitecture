@@ -39,5 +39,13 @@ Temporary Items
 # Archive
 __MACOSX
 
+# Windows
+Thumbs.db
+ehthumbs.db
+ehthumbs_vista.db
+desktop.ini
+*.stackdump
+$RECYCLE.BIN/
+
 **/**/.DS_Store
 .idea
